@@ -80,7 +80,6 @@ const cardStyle: React.CSSProperties = {
   border: "1px solid #ddd",
   borderRadius: "8px",
   background: "#fff",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
   padding: "8px",
   display: "flex",
   flexDirection: "column",

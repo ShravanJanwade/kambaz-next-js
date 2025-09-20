@@ -3,17 +3,20 @@ import Link from "next/link";
 export default function Lab1() {
   return (
     <div id="wd-lab1">
-      <h1>Labs</h1>
       <section style={{ marginBottom: "20px" }}>
-        <h3>Student Information</h3>
+        <h2>Student Information</h2>
         <p>
-          <strong>Name:</strong> Shravankumar Janawade <br />
-          <strong>Section:</strong> CS5610 - SEC 04 Fall 2025
+          <h2>
+            <strong>Name:</strong> Shravankumar Janawade <br />
+          </h2>
+          <h2>
+            <strong>Section:</strong> CS5610 - SEC 04 Fall 2025
+          </h2>
         </p>
       </section>
 
       <section style={{ marginBottom: "20px" }}>
-        <h3>Lab Assignments</h3>
+        <h1>Labs</h1>
         <ul>
           <li>
             <Link href="/Labs/Lab1" id="wd-lab1-link">

@@ -28,7 +28,6 @@ const containerStyle: React.CSSProperties = {
   borderRadius: "6px",
   padding: "15px",
   width: "250px",
-  background: "#fafafa",
 };
 
 const unpublishBtn: React.CSSProperties = {

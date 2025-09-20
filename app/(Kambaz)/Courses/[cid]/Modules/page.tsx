@@ -151,7 +151,6 @@ const moduleStyle: React.CSSProperties = {
   borderRadius: "6px",
   padding: "10px",
   marginBottom: "12px",
-  background: "#fafafa",
 };
 
 const lessonListStyle: React.CSSProperties = {
