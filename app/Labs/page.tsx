@@ -5,14 +5,12 @@ export default function Lab1() {
     <div id="wd-lab1">
       <section style={{ marginBottom: "20px" }}>
         <h2>Student Information</h2>
-        <p>
-          <h2>
-            <strong>Name:</strong> Shravankumar Janawade <br />
-          </h2>
-          <h2>
-            <strong>Section:</strong> CS5610 - SEC 04 Fall 2025
-          </h2>
-        </p>
+        <h2>
+          <strong>Name:</strong> Shravankumar Janawade <br />
+        </h2>
+        <h2>
+          <strong>Section:</strong> CS5610 - SEC 04 Fall 2025
+        </h2>
       </section>
 
       <section style={{ marginBottom: "20px" }}>
@@ -45,13 +43,9 @@ export default function Lab1() {
       </section>
       <section style={{ marginBottom: "20px" }}>
         <h3>Source Code Repositories</h3>
-        <ul>
-          <li>
-            <a href="https://github.com/ShravanJanwade/kambaz-next-js">
-              Kambaz Repository
-            </a>
-          </li>
-        </ul>
+        <a href="https://github.com/ShravanJanwade/kambaz-next-js">
+          Kambaz Repository
+        </a>
       </section>
     </div>
   );

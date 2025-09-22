@@ -1,7 +1,33 @@
 "use client";
+
+import Link from "next/link";
+
 export default function Lab1() {
   return (
     <div id="wd-lab1">
+      <section style={{ marginBottom: "20px" }}>
+        <h2>Student Information</h2>
+        <h2>
+          <strong>Name:</strong> Shravankumar Janawade <br />
+        </h2>
+        <h2>
+          <strong>Section:</strong> CS5610 - SEC 04 Fall 2025
+        </h2>
+      </section>
+      <section style={{ marginBottom: "20px" }}>
+        <h3>Kambaz Application</h3>
+        <p>
+          <Link href="/" id="wd-kambaz-link">
+            Go to Kambaz Application
+          </Link>
+        </p>
+      </section>
+      <section style={{ marginBottom: "20px" }}>
+        <h3>Source Code Repositories</h3>
+        <a href="https://github.com/ShravanJanwade/kambaz-next-js">
+          Kambaz Repository
+        </a>
+      </section>
       <h2>Lab 1</h2>
       <h3>HTML Examples</h3>
       <div id="wd-h-tag">
