@@ -1,90 +1,71 @@
+"use client";
 import Link from "next/link";
-import Image from "next/image";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  CardImg,
+  CardBody,
+  CardTitle,
+  CardText,
+} from "react-bootstrap";
 
 export default function Dashboard() {
   return (
-    <div id="wd-dashboard" style={{ padding: "20px", display: "flex" }}>
-      <div style={{ flex: "0 0 70%" }}>
-        <h1 id="wd-dashboard-title">Dashboard</h1>
-        <hr />
+    <div id="wd-dashboard" style={{ padding: "20px 40px" }}>
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
 
-        <h2 id="wd-dashboard-published">Published Courses (7)</h2>
-        <hr />
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
+      <hr />
 
-        <div
-          id="wd-dashboard-courses"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "12px",
-            marginTop: "16px",
-          }}
-        >
+      <div id="wd-dashboard-courses" style={{ marginTop: "30px" }}>
+        <Row xs={1} sm={2} md={3} lg={4} xl={5} className="g-4">
           {courses.map((course) => (
-            <div
+            <Col
               key={course.id}
               className="wd-dashboard-course"
-              style={cardStyle}
+              style={{ width: "300px" }}
             >
-              <Link
-                href={`/Courses/${course.id}`}
-                className="wd-dashboard-course-link"
-              >
-                <Image
-                  src={course.image}
-                  width={300}
-                  height={180}
-                  alt={course.title}
-                  style={{
-                    borderRadius: "6px",
-                    width: "100%",
-                    height: "60%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div style={{ marginTop: "6px", textAlign: "center" }}>
-                  <h5 style={{ margin: "4px 0" }}>
-                    {course.code} {course.title}
-                  </h5>
-                  <p
-                    className="wd-dashboard-course-title"
-                    style={{ fontSize: "0.9rem", color: "#555" }}
-                  >
-                    {course.description}
-                  </p>
-                  <button
+              <Card className="h-100 shadow-sm">
+                <Link
+                  href={`/Courses/${course.id}/Home`}
+                  className="wd-dashboard-course-link text-decoration-none text-dark"
+                >
+                  <CardImg
+                    variant="top"
+                    src={course.image}
+                    width="100%"
+                    height={160}
                     style={{
-                      marginTop: "6px",
-                      padding: "6px 12px",
-                      fontSize: "0.85rem",
-                      borderRadius: "4px",
-                      border: "1px solid #ccc",
-                      cursor: "pointer",
+                      objectFit: "cover",
+                      borderTopLeftRadius: "6px",
+                      borderTopRightRadius: "6px",
                     }}
-                  >
-                    Go
-                  </button>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
+                  />
 
-      <div style={{ flex: "0 0 30%" }}></div>
+                  <CardBody>
+                    <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                      {course.code} {course.title}
+                    </CardTitle>
+                    <CardText
+                      className="wd-dashboard-course-description overflow-hidden"
+                      style={{ height: "100px" }}
+                    >
+                      {course.description}
+                    </CardText>
+                    <Button variant="primary">Go</Button>
+                  </CardBody>
+                </Link>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
     </div>
   );
 }
-
-const cardStyle: React.CSSProperties = {
-  border: "1px solid #ddd",
-  borderRadius: "8px",
-  background: "#fff",
-  padding: "8px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
 
 const courses = [
   {
@@ -135,5 +116,19 @@ const courses = [
     title: "DevOps",
     description: "CI/CD & Cloud Deployment",
     image: "/images/devops.png",
+  },
+  {
+    id: "8901",
+    code: "CS8901",
+    title: "Data Structures",
+    description: "Algorithms & Complexity",
+    image: "/images/data-structure.png",
+  },
+  {
+    id: "9012",
+    code: "CS9012",
+    title: "Cyber Security",
+    description: "Security Fundamentals",
+    image: "/images/cyber-security.png",
   },
 ];
