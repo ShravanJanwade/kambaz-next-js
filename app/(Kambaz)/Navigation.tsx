@@ -35,7 +35,6 @@ export default function KambazNavigation() {
       style={{ width: 110 }}
       id="wd-kambaz-navigation"
     >
-      {/* NEU Logo */}
       <ListGroupItem
         className="bg-black border-0 text-center py-3"
         as="a"
@@ -46,7 +45,6 @@ export default function KambazNavigation() {
         <img src="/images/NEU.png" width="60px" alt="Northeastern University" />
       </ListGroupItem>
 
-      {/* Links */}
       <div className="flex-grow-1 d-flex flex-column align-items-center gap-1 mt-2">
         <ListGroupItem className={navItemClass("/Account")}>
           <Link href="/Account" className={linkClass("/Account")}>

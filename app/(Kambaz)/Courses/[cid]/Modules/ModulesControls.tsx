@@ -11,7 +11,6 @@ import GreenCheckmark from "./GreenCheckMark";
 export default function ModulesControls() {
   return (
     <div id="wd-modules-controls" className="text-nowrap">
-      {/* Add Module button */}
       <Button
         variant="danger"
         size="lg"
@@ -47,7 +46,6 @@ export default function ModulesControls() {
         </DropdownMenu>
       </Dropdown>
 
-      {/* View Progress button */}
       <Button
         variant="secondary"
         size="lg"
@@ -57,7 +55,6 @@ export default function ModulesControls() {
         View Progress
       </Button>
 
-      {/* Collapse All button */}
       <Button
         variant="secondary"
         size="lg"
