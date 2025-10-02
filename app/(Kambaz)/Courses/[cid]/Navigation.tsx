@@ -1,63 +1,107 @@
+"use client";
+
 import Link from "next/link";
-export default function CourseNavigation() {
+import { AiOutlineHome } from "react-icons/ai";
+import { BiBook } from "react-icons/bi";
+import {
+  FaComments,
+  FaVideo,
+  FaClipboardList,
+  FaQuestionCircle,
+  FaUsers,
+} from "react-icons/fa";
+
+type Props = {
+  mobile?: boolean;
+  courseId?: string;
+  onNavigate?: () => void;
+};
+
+export default function CourseNavigation({
+  mobile = false,
+  onNavigate,
+}: Props) {
+  const base = "/Courses/1234";
+  const links = [
+    { href: `${base}/Home`, label: "Home", icon: <AiOutlineHome size={18} /> },
+    { href: `${base}/Modules`, label: "Modules", icon: <BiBook size={18} /> },
+    { href: `${base}/Piazza`, label: "Piazza", icon: <FaComments size={18} /> },
+    { href: `${base}/Zoom`, label: "Zoom", icon: <FaVideo size={18} /> },
+    {
+      href: `${base}/Assignments`,
+      label: "Assignments",
+      icon: <FaClipboardList size={18} />,
+    },
+    {
+      href: `${base}/Quizzes`,
+      label: "Quizzes",
+      icon: <FaQuestionCircle size={18} />,
+    },
+    {
+      href: `${base}/People/Table`,
+      label: "People",
+      icon: <FaUsers size={18} />,
+    },
+  ];
+
+  if (mobile) {
+    return (
+      <nav
+        className="d-flex flex-column w-100"
+        aria-label="Course quick links"
+        style={{
+          gap: 6,
+          padding: "8px 1px",
+          alignItems: "stretch",
+          justifyContent: "center",
+        }}
+      >
+        {links.map(({ href, label, icon }) => (
+          <Link
+            key={href}
+            href={href}
+            onClick={() => onNavigate?.()}
+            className="text-danger text-decoration-none w-100 d-flex align-items-center"
+            style={{
+              fontSize: "1rem",
+              fontWeight: 600,
+              letterSpacing: "0.15px",
+              padding: "8px 6px",
+              lineHeight: "1.05",
+              display: "flex",
+              gap: 12,
+            }}
+          >
+            <span
+              style={{
+                width: 24,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {icon}
+            </span>
+            <span style={{ display: "inline-block" }}>{label}</span>
+          </Link>
+        ))}
+      </nav>
+    );
+  }
+
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <Link
-        href="/Courses/1234/Home"
-        id="wd-course-home-link"
-        className="list-group-item active border-0"
-      >
-        {" "}
-        Home{" "}
-      </Link>
-      <Link
-        href="/Courses/1234/Modules"
-        id="wd-course-modules-link"
-        className="list-group-item text-danger border-0"
-      >
-        {" "}
-        Modules{" "}
-      </Link>
-      <Link
-        href="/Courses/1234/Piazza"
-        id="wd-course-piazza-link"
-        className="list-group-item text-danger border-0"
-      >
-        {" "}
-        Piazza{" "}
-      </Link>
-      <Link
-        href="/Courses/1234/Zoom"
-        id="wd-course-zoom-link"
-        className="list-group-item text-danger border-0"
-      >
-        {" "}
-        Zoom{" "}
-      </Link>
-      <Link
-        href="/Courses/1234/Assignments"
-        id="wd-course-assignments-link"
-        className="list-group-item text-danger border-0"
-      >
-        {" "}
-        Assignments{" "}
-      </Link>
-      <Link
-        href="/Courses/1234/Quizzes"
-        id="wd-course-quizzes-link"
-        className="list-group-item text-danger border-0"
-      >
-        {" "}
-        Quizzes{" "}
-      </Link>
-      <Link
-        href="/Courses/1234/People/Table"
-        id="wd-course-people-link"
-        className="list-group-item text-danger border-0"
-      >
-        {" "}
-        People{" "}
-      </Link>
+      {links.map(({ href, label }, idx) => (
+        <Link
+          key={href}
+          href={href}
+          className={`list-group-item ${
+            idx === 0 ? "active" : "text-danger"
+          } border-0`}
+        >
+          {label}
+        </Link>
+      ))}
     </div>
   );
 }

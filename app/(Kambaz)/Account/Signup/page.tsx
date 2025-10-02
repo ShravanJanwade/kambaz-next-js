@@ -17,7 +17,7 @@ export default function Signup() {
           <Form.Group className="mb-3">
             <Form.Control type="password" placeholder="Verify Password" />
           </Form.Group>
-          <Button href="Profile" variant="success" className="w-100 mb-3">
+          <Button href="/Dashboard" variant="primary" className="w-100 mb-3">
             Sign Up
           </Button>
           <div className="text-center">

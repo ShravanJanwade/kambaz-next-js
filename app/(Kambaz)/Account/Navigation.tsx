@@ -43,7 +43,7 @@ export default function AccountNavigation() {
               href={link.href}
               className={`d-flex align-items-center gap-2 py-2 px-3 mb-2 text-decoration-none ${
                 active
-                  ? "fw-bold border-start border-3 border-danger text-dark"
+                  ? "fw-bold border-start border-3 border-dark text-dark"
                   : "text-danger"
               }`}
               style={{ transition: "0.2s" }}
