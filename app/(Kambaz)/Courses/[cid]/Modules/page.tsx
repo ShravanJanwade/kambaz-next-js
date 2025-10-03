@@ -20,7 +20,6 @@ export default function Modules() {
               <BsGripVertical className="me-2 fs-3" /> Week 1, Lecture 1 -
               Course Introduction, Syllabus, Agenda
             </div>
-            <ModuleControlButtons />
           </div>
 
           <ListGroup className="wd-lessons rounded-0">
@@ -80,7 +79,6 @@ export default function Modules() {
               <BsGripVertical className="me-2 fs-3" /> Week 2, Lecture 2 - HTML
               Basics
             </div>
-            <ModuleControlButtons />
           </div>
 
           <ListGroup className="wd-lessons rounded-0">

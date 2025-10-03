@@ -14,7 +14,7 @@ export default async function CoursesLayout({
       </h2>{" "}
       <hr />
       <div className="d-flex">
-        <div className="d-none d-md-block">
+        <div className="d-none d-lg-block">
           <CourseNavigation />
         </div>
         <div className="flex-fill">{children}</div>
