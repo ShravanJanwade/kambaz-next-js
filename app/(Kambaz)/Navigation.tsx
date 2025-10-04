@@ -46,14 +46,46 @@ export default function KambazNavigation() {
   const isActive = (path: string) => pathname?.startsWith(path);
 
   const navLinks = [
-    { href: "/Account", icon: <FaRegCircleUser />, label: "Account" },
-    { href: "/Dashboard", icon: <AiOutlineDashboard />, label: "Dashboard" },
-    { href: "/Courses", icon: <LiaBookSolid />, label: "Courses" },
-    { href: "/Calendar", icon: <IoCalendarOutline />, label: "Calendar" },
-    { href: "/Inbox", icon: <FaInbox />, label: "Inbox" },
-    { href: "/History", icon: <FaRegClock />, label: "History" },
-    { href: "/Studio", icon: <PiStudent />, label: "Studio" },
-    { href: "/Help", icon: <MdOutlineHelpOutline />, label: "Help" },
+    {
+      href: "/Account",
+      icon: <FaRegCircleUser style={{ color: "#6c757d" }} />,
+      label: "Account",
+    },
+    {
+      href: "/Dashboard",
+      icon: <AiOutlineDashboard style={{ color: "#dc3545" }} />,
+      label: "Dashboard",
+    },
+    {
+      href: "/Courses",
+      icon: <LiaBookSolid style={{ color: "#dc3545" }} />,
+      label: "Courses",
+    },
+    {
+      href: "/Calendar",
+      icon: <IoCalendarOutline style={{ color: "#dc3545" }} />,
+      label: "Calendar",
+    },
+    {
+      href: "/Inbox",
+      icon: <FaInbox style={{ color: "#dc3545" }} />,
+      label: "Inbox",
+    },
+    {
+      href: "/History",
+      icon: <FaRegClock style={{ color: "#dc3545" }} />,
+      label: "History",
+    },
+    {
+      href: "/Studio",
+      icon: <PiStudent style={{ color: "#dc3545" }} />,
+      label: "Studio",
+    },
+    {
+      href: "/Help",
+      icon: <MdOutlineHelpOutline style={{ color: "#dc3545" }} />,
+      label: "Help",
+    },
   ];
 
   const allCourses = [
