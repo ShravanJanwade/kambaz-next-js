@@ -14,17 +14,14 @@ export default function AccountNavigation() {
     {
       href: "/Account/Signin",
       label: "Signin",
-      icon: <AiOutlineLogin size={20} />,
     },
     {
       href: "/Account/Signup",
       label: "Signup",
-      icon: <AiOutlineUserAdd size={20} />,
     },
     {
       href: "/Account/Profile",
       label: "Profile",
-      icon: <AiOutlineUser size={20} />,
     },
   ];
 
@@ -48,7 +45,6 @@ export default function AccountNavigation() {
               }`}
               style={{ transition: "0.2s" }}
             >
-              {link.icon}
               <span>{link.label}</span>
             </Link>
           );
