@@ -13,7 +13,6 @@ import { Button } from "react-bootstrap";
 
 export default function CourseStatus() {
   return (
-    // Added Bootstrap responsive classes here 👇
     <div
       id="wd-course-status"
       className="d-none d-lg-block"
