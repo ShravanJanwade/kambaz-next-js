@@ -42,7 +42,7 @@ export default function Lab1() {
         </p>
       </section>
       <section style={{ marginBottom: "20px" }}>
-        <h3>Source Code Repositories</h3>
+        <h3>Source Code Repository</h3>
         <a href="https://github.com/ShravanJanwade/kambaz-next-js">
           Kambaz Repository
         </a>
