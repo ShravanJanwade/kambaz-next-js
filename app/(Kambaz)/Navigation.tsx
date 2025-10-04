@@ -31,6 +31,7 @@ export default function KambazNavigation() {
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false);
   const courseIdMatch = pathname?.match(/^\/Courses\/(\d+)/);
   const courseId = courseIdMatch ? courseIdMatch[1] : null;
+  const [mobileAccountOpen, setMobileAccountOpen] = useState(false);
 
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
@@ -173,6 +174,82 @@ export default function KambazNavigation() {
           style={{ overflow: "auto", paddingBottom: 40 }}
         >
           {navLinks.map(({ href, icon, label }) => {
+            if (href === "/Account") {
+              return (
+                <div key={href} className="w-100">
+                  <button
+                    onClick={() => setMobileAccountOpen((s) => !s)}
+                    className="w-100 d-flex align-items-center justify-content-between btn"
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      padding: "10px 6px",
+                      color: "#dc3545",
+                      fontWeight: 700,
+                      textAlign: "left",
+                    }}
+                  >
+                    <span
+                      className="d-flex align-items-center"
+                      style={{ gap: 10 }}
+                    >
+                      <span style={{ fontSize: 20 }}>{icon}</span>
+                      <span style={{ fontSize: 16 }}>{label}</span>
+                    </span>
+                    <span>
+                      {mobileAccountOpen ? <FaChevronUp /> : <FaChevronDown />}
+                    </span>
+                  </button>
+
+                  {mobileAccountOpen && (
+                    <div
+                      style={{
+                        paddingLeft: 46,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 6,
+                      }}
+                    >
+                      <div
+                        style={{
+                          marginTop: 4,
+                          marginBottom: 6,
+                          borderTop: "1px solid rgba(0,0,0,0.04)",
+                          width: "100%",
+                        }}
+                      />
+                      {/* Account Links */}
+                      {[
+                        { href: "/Account/Signin", label: "Signin" },
+                        { href: "/Account/Signup", label: "Signup" },
+                        { href: "/Account/Profile", label: "Profile" },
+                      ].map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsOpen(false)}
+                          className="text-decoration-none text-danger fw-semibold"
+                          style={{
+                            padding: "8px 6px",
+                            display: "block",
+                          }}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                      <div
+                        style={{
+                          marginTop: 6,
+                          marginBottom: 8,
+                          borderBottom: "1px solid rgba(0,0,0,0.04)",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            }
             if (href === "/Courses") {
               return (
                 <div key={href} className="w-100">
