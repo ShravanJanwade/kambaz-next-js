@@ -29,8 +29,9 @@ export default function KambazNavigation() {
   const [courseOpen, setCourseOpen] = useState(false);
   const [desktopCoursePanelOpen, setDesktopCoursePanelOpen] = useState(false);
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false);
+  const courseIdMatch = pathname?.match(/^\/Courses\/(\d+)/);
+  const courseId = courseIdMatch ? courseIdMatch[1] : null;
 
-  // portal element to render overlay/drawer outside app DOM
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
     const el = document.createElement("div");
@@ -53,10 +54,8 @@ export default function KambazNavigation() {
     { href: "/History", icon: <FaRegClock />, label: "History" },
     { href: "/Studio", icon: <PiStudent />, label: "Studio" },
     { href: "/Help", icon: <MdOutlineHelpOutline />, label: "Help" },
-    { href: "/Labs", icon: <BiBook />, label: "Labs" },
   ];
 
-  // demo courses — replace with your shared source
   const allCourses = [
     { id: "1234", code: "CS1234", title: "React JS" },
     { id: "2345", code: "CS2345", title: "Node JS" },
@@ -81,6 +80,7 @@ export default function KambazNavigation() {
   const DESKTOP_PANEL_MIN = 320;
   const DESKTOP_PANEL_MAX = 560;
   const panelWidthCSS = `min(max(${DESKTOP_PANEL_WIDTH_PERCENT}vw, ${DESKTOP_PANEL_MIN}px), ${DESKTOP_PANEL_MAX}px)`;
+  const mobileTitle = courseId ? `Course ${courseId}` : "Kambaz";
 
   const goToCourse = (courseId: string) => {
     router.push(`/Courses/${courseId}/Home`);
@@ -358,9 +358,8 @@ export default function KambazNavigation() {
             style={{ cursor: "pointer" }}
           />
         </div>
-
         <div className="flex-grow-1 text-center">
-          <span className="fw-bold">Kambaz</span>
+          <span className="fw-bold">{mobileTitle}</span>
         </div>
 
         <div
