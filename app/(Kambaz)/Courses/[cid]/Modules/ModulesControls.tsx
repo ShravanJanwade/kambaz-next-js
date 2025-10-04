@@ -12,9 +12,9 @@ export default function ModulesControls() {
   return (
     <div
       id="wd-modules-controls"
-      className="text-nowrap d-flex justify-content-end flex-wrap"
+      className="text-nowrap d-flex justify-content-end flex-nowrap"
+      style={{ overflow: "hidden" }}
     >
-      {/* Collapse All */}
       <Button
         variant="secondary"
         size="sm"
@@ -42,7 +42,6 @@ export default function ModulesControls() {
         Collapse All
       </Button>
 
-      {/* View Progress */}
       <Button
         variant="secondary"
         size="sm"
@@ -60,7 +59,6 @@ export default function ModulesControls() {
         View Progress
       </Button>
 
-      {/* Publish / Unpublish dropdown */}
       <Dropdown className="me-2 d-none d-md-inline-block d-lg-none">
         <DropdownToggle
           variant="secondary"
@@ -116,8 +114,6 @@ export default function ModulesControls() {
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-
-      {/* Add Module */}
       <Button
         variant="danger"
         size="sm"
