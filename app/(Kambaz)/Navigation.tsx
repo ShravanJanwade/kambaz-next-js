@@ -87,6 +87,11 @@ export default function KambazNavigation() {
       icon: <MdOutlineHelpOutline style={{ color: "#dc3545" }} />,
       label: "Help",
     },
+    {
+      href: "/Labs",
+      icon: <BiBook style={{ color: "#dc3545" }} />,
+      label: "Labs",
+    },
   ];
 
   const allCourses = [
@@ -218,7 +223,6 @@ export default function KambazNavigation() {
                           width: "100%",
                         }}
                       />
-                      {/* Account Links */}
                       {[
                         { href: "/Account/Signin", label: "Signin" },
                         { href: "/Account/Signup", label: "Signup" },
@@ -364,13 +368,13 @@ export default function KambazNavigation() {
           />
         </ListGroupItem>
 
-        <div className="flex-grow-1 d-flex flex-column align-items-center gap-1 mt-2">
+        <div className="flex-grow-1 d-flex flex-column align-items-center  mt-1">
           {navLinks.map(({ href, icon, label }) => {
             if (href === "/Courses") {
               return (
                 <ListGroupItem
                   key={href}
-                  className={`border-0 text-center w-100 py-2 ${
+                  className={`border-0 text-center w-100  ${
                     isActive(href) ? "bg-white" : "bg-black"
                   }`}
                 >
@@ -389,12 +393,12 @@ export default function KambazNavigation() {
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
-                      gap: 4,
+                      gap: 2,
                       cursor: "pointer",
                     }}
                   >
                     <span
-                      className={`fs-4 ${
+                      className={`fs-2 ${
                         isActive(href) ? "text-danger" : "text-white"
                       }`}
                     >
@@ -409,7 +413,7 @@ export default function KambazNavigation() {
             return (
               <ListGroupItem
                 key={href}
-                className={`border-0 text-center w-100 py-2 ${
+                className={`border-0 text-center w-100  ${
                   isActive(href) ? "bg-white" : "bg-black"
                 }`}
               >
@@ -420,7 +424,7 @@ export default function KambazNavigation() {
                   }`}
                 >
                   <span
-                    className={`fs-4 ${
+                    className={`fs-2 ${
                       isActive(href) ? "text-danger" : "text-white"
                     }`}
                   >
@@ -431,28 +435,6 @@ export default function KambazNavigation() {
               </ListGroupItem>
             );
           })}
-        </div>
-
-        <div className="mb-3 mt-2 border-top pt-2">
-          <ListGroupItem
-            className={`border-0 text-center w-100 py-2 ${
-              isActive("/Labs") ? "bg-white" : "bg-black"
-            }`}
-          >
-            <Link
-              href="/Labs"
-              className={`text-decoration-none small ${
-                isActive("/Labs") ? "text-danger" : "text-white"
-              }`}
-            >
-              <BiBook
-                className={`fs-4 ${
-                  isActive("/Labs") ? "text-danger" : "text-white"
-                }`}
-              />
-              <div style={{ fontSize: "0.8rem" }}>Labs</div>
-            </Link>
-          </ListGroupItem>
         </div>
       </ListGroup>
 
