@@ -15,20 +15,18 @@ import { LuNotebookPen } from "react-icons/lu";
 export default function Dashboard() {
   return (
     <div id="wd-dashboard" style={{ padding: "20px 40px" }}>
-      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <h1 id="wd-dashboard-title" className="mt-5 mt-md-0">
+        Dashboard
+      </h1>
       <hr />
 
       <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
       <hr />
 
       <div id="wd-dashboard-courses" style={{ marginTop: "30px" }}>
-        <Row xs={1} sm={2} md={3} lg={4} xl={5} className="g-4">
+        <Row xs={1} sm={2} md={3} lg={4} className="g-4">
           {courses.map((course) => (
-            <Col
-              key={course.id}
-              className="wd-dashboard-course"
-              style={{ width: "350px" }}
-            >
+            <Col key={course.id} className="wd-dashboard-course">
               <Card className="h-80 shadow-sm">
                 <Link
                   href={`/Courses/${course.id}/Home`}
@@ -45,7 +43,6 @@ export default function Dashboard() {
                       borderTopRightRadius: "6px",
                     }}
                   />
-
                   <CardBody>
                     <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
                       {course.code} {course.title}

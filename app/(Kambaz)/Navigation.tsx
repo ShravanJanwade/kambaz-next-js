@@ -49,47 +49,46 @@ export default function KambazNavigation() {
   const navLinks = [
     {
       href: "/Account",
-      icon: <FaRegCircleUser style={{ color: "#6c757d" }} />,
+      icon: <FaRegCircleUser style={{ color: "#6c757d", fontSize: "30px" }} />,
       label: "Account",
     },
     {
       href: "/Dashboard",
-      icon: <AiOutlineDashboard style={{ color: "#dc3545" }} />,
+      icon: (
+        <AiOutlineDashboard style={{ color: "#dc3545", fontSize: "30px" }} />
+      ),
       label: "Dashboard",
     },
     {
       href: "/Courses",
-      icon: <LiaBookSolid style={{ color: "#dc3545" }} />,
+      icon: <LiaBookSolid style={{ color: "#dc3545", fontSize: "30px" }} />,
       label: "Courses",
     },
     {
       href: "/Calendar",
-      icon: <IoCalendarOutline style={{ color: "#dc3545" }} />,
+      icon: (
+        <IoCalendarOutline style={{ color: "#dc3545", fontSize: "30px" }} />
+      ),
       label: "Calendar",
     },
     {
       href: "/Inbox",
-      icon: <FaInbox style={{ color: "#dc3545" }} />,
+      icon: <FaInbox style={{ color: "#dc3545", fontSize: "30px" }} />,
       label: "Inbox",
     },
     {
       href: "/History",
-      icon: <FaRegClock style={{ color: "#dc3545" }} />,
+      icon: <FaRegClock style={{ color: "#dc3545", fontSize: "30px" }} />,
       label: "History",
     },
     {
       href: "/Studio",
-      icon: <PiStudent style={{ color: "#dc3545" }} />,
+      icon: <PiStudent style={{ color: "#dc3545", fontSize: "30px" }} />,
       label: "Studio",
     },
     {
-      href: "/Help",
-      icon: <MdOutlineHelpOutline style={{ color: "#dc3545" }} />,
-      label: "Help",
-    },
-    {
       href: "/Labs",
-      icon: <BiBook style={{ color: "#dc3545" }} />,
+      icon: <BiBook style={{ color: "#dc3545", fontSize: "30px" }} />,
       label: "Labs",
     },
   ];
@@ -424,7 +423,7 @@ export default function KambazNavigation() {
                   }`}
                 >
                   <span
-                    className={`fs-2 ${
+                    className={` ${
                       isActive(href) ? "text-danger" : "text-white"
                     }`}
                   >
