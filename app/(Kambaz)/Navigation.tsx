@@ -615,10 +615,6 @@ export default function KambazNavigation() {
               <h4 className="mb-1" style={{ color: "#dc3545" }}>
                 Courses
               </h4>
-              <hr style={{ margin: "6px 0 8px 0" }} />
-              <h6 className="mb-1 text-danger">All Courses</h6>
-              <hr style={{ margin: "6px 0 8px 0" }} />
-              <div style={{ fontSize: 12, color: "#b02a37" }}>Courses</div>
             </div>
 
             <button
