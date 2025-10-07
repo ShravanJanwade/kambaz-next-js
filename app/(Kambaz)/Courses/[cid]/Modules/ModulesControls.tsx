@@ -1,10 +1,4 @@
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-} from "react-bootstrap";
+import { Button, Dropdown } from "react-bootstrap";
 import { FaPlus, FaBan } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckMark";
 
@@ -13,7 +7,8 @@ export default function ModulesControls() {
     <div
       id="wd-modules-controls"
       className="text-nowrap d-flex justify-content-end flex-nowrap"
-      style={{ overflow: "hidden" }}
+      // allow overflow so dropdown menus are visible
+      style={{ overflow: "visible" }}
     >
       <Button
         variant="secondary"
@@ -60,60 +55,61 @@ export default function ModulesControls() {
       </Button>
 
       <Dropdown className="me-2 d-none d-md-inline-block d-lg-none">
-        <DropdownToggle
+        <Dropdown.Toggle
           variant="secondary"
           size="sm"
           id="wd-publish-all-btn-sm"
         >
           <GreenCheckmark /> Publish
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>
             <GreenCheckmark /> Publish All
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <GreenCheckmark /> Publish all modules and items
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <GreenCheckmark /> Publish modules only
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <FaBan className="text-danger me-2" /> Unpublish all modules and
             items
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <FaBan className="text-danger me-2" /> Unpublish modules only
-          </DropdownItem>
-        </DropdownMenu>
+          </Dropdown.Item>
+        </Dropdown.Menu>
       </Dropdown>
 
       <Dropdown className="me-2 d-none d-lg-inline-block">
-        <DropdownToggle
+        <Dropdown.Toggle
           variant="secondary"
           size="lg"
           id="wd-publish-all-btn-lg"
         >
           <GreenCheckmark /> Publish All
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>
             <GreenCheckmark /> Publish All
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <GreenCheckmark /> Publish all modules and items
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <GreenCheckmark /> Publish modules only
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <FaBan className="text-danger me-2" /> Unpublish all modules and
             items
-          </DropdownItem>
-          <DropdownItem>
+          </Dropdown.Item>
+          <Dropdown.Item>
             <FaBan className="text-danger me-2" /> Unpublish modules only
-          </DropdownItem>
-        </DropdownMenu>
+          </Dropdown.Item>
+        </Dropdown.Menu>
       </Dropdown>
+
       <Button
         variant="danger"
         size="sm"

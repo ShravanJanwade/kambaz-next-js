@@ -1,6 +1,6 @@
 "use client";
-
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiBook } from "react-icons/bi";
 import {
@@ -21,7 +21,9 @@ export default function CourseNavigation({
   mobile = false,
   onNavigate,
 }: Props) {
-  const base = "/Courses/1234";
+  const params = useParams();
+  const cid = params?.cid;
+  const base = `/Courses/${cid}`;
   const links = [
     { href: `${base}/Home`, label: "Home", icon: <AiOutlineHome size={18} /> },
     { href: `${base}/Modules`, label: "Modules", icon: <BiBook size={18} /> },
