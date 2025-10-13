@@ -4,6 +4,21 @@ import { FaUserCircle } from "react-icons/fa";
 import * as db from "../../../../Database";
 import { useParams } from "next/navigation";
 
+export interface User {
+  _id: string | number;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dob: string;
+  role: "FACULTY" | "STUDENT" | "ADMIN" | string;
+  loginId: string;
+  section: string;
+  lastActivity: string;
+  totalActivity: string;
+}
+
 export default function PeopleTable() {
   const { cid } = useParams();
   const { users, enrollments } = db;

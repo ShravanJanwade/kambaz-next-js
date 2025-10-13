@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { Card, Form, Button } from "react-bootstrap";
 
 export default function Profile() {

@@ -1,7 +1,7 @@
 import React from "react";
 
 const IfElse = () => {
-  let true1 = true,
+  const true1 = true,
     false1 = false;
   return (
     <div id="wd-if-else">

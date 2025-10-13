@@ -16,12 +16,12 @@ import {
 } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { PiStudent } from "react-icons/pi";
-import { MdOutlineHelpOutline } from "react-icons/md";
 import { BiBook } from "react-icons/bi";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import CourseNavigation from "./Courses/[cid]/Navigation";
 import { courses } from "./Database";
+import Image from "next/image";
 export default function KambazNavigation() {
   const pathname = usePathname();
   const router = useRouter();
@@ -149,9 +149,12 @@ export default function KambazNavigation() {
       >
         <div className="d-flex justify-content-between align-items-center px-3 py-3 border-bottom">
           <div className="d-flex align-items-center gap-2">
-            <img
+            <Image
               style={{ height: "100px", width: "200px" }}
               src="/images/canvas.svg"
+              width="60"
+              height={60}
+              alt="canvas"
             />
           </div>
           <FaTimes
@@ -348,9 +351,10 @@ export default function KambazNavigation() {
           target="_blank"
           href="https://www.northeastern.edu/"
         >
-          <img
+          <Image
             src="/images/NEU.png"
-            width="60px"
+            width="60"
+            height={60}
             alt="Northeastern University"
           />
         </ListGroupItem>
