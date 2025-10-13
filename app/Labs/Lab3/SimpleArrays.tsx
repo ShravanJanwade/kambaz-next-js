@@ -1,7 +1,7 @@
 export default function SimpleArrays() {
   const functionScoped = 2;
   const blockScoped = 5;
-  let constant1 = functionScoped - blockScoped;
+  const constant1 = functionScoped - blockScoped;
   const numberArray1 = [1, 2, 3, 4, 5];
   const stringArray1 = ["string1", "string2"];
   const htmlArray1 = [

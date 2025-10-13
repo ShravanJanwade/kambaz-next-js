@@ -43,7 +43,7 @@ export default function PeopleTable() {
                   enrollment.user === usr._id && enrollment.course === cid
               )
             )
-            .map((user: any, index) => (
+            .map((user: User, index) => (
               <tr key={index}>
                 <td className="wd-full-name text-nowrap">
                   <FaUserCircle className="me-2 fs-1 text-secondary" />
