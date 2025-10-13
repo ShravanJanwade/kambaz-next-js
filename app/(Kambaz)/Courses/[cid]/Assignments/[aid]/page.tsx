@@ -1,4 +1,11 @@
+"use client";
+import { useParams } from "next/navigation";
+import { assignments } from "@/app/(Kambaz)/Database";
 export default function AssignmentEditor() {
+  const { aid } = useParams();
+  const assignment = assignments.find((a) => a._id == aid);
+  const assignmentName = assignment?.title;
+  const assignmentDescription = assignment?.description;
   return (
     <div
       id="wd-assignments-editor"
@@ -127,7 +134,11 @@ export default function AssignmentEditor() {
             <label htmlFor="wd-name" className="row-label assign-left">
               Assignment Name
             </label>
-            <input id="wd-name" defaultValue="A1" className="form-control" />
+            <input
+              id="wd-name"
+              defaultValue={assignmentName}
+              className="form-control"
+            />
           </div>
         </div>
       </div>
@@ -137,24 +148,7 @@ export default function AssignmentEditor() {
           className="span-full full-span-box"
           style={{ background: "#fafafa" }}
         >
-          <p>
-            The assignment is{" "}
-            <span className="text-danger">available online</span>
-          </p>
-          <p>
-            Submit a link to the landing page of your Web application running on
-            Netlify.
-          </p>
-          <ul>
-            <li>Your full name and section</li>
-            <li>Links to each of the lab assignments</li>
-            <li>Link to the Kanbas application</li>
-            <li>Links to all relevant source code repositories</li>
-          </ul>
-          <p>
-            The Kanbas application should include a link to navigate back to the
-            landing page.
-          </p>
+          <p>{assignmentDescription}</p>
         </div>
       </div>
 
@@ -163,7 +157,11 @@ export default function AssignmentEditor() {
           Points
         </label>
         <div className="col-field ms-4">
-          <input id="wd-points" defaultValue={100} className="form-control" />
+          <input
+            id="wd-points"
+            defaultValue={assignment?.points}
+            className="form-control"
+          />
         </div>
       </div>
 
@@ -307,7 +305,7 @@ export default function AssignmentEditor() {
               <input
                 type="datetime-local"
                 id="wd-due-date"
-                defaultValue="2024-05-13T23:59"
+                defaultValue={assignment?.due}
                 className="form-control"
               />
             </div>
@@ -320,7 +318,7 @@ export default function AssignmentEditor() {
                 <input
                   type="datetime-local"
                   id="wd-available-from"
-                  defaultValue="2024-05-06T00:00"
+                  defaultValue={assignment?.available}
                   className="form-control"
                 />
               </div>

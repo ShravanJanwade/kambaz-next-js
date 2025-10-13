@@ -6,7 +6,8 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { MdAssignment } from "react-icons/md";
 import Link from "next/link";
 import GreenCheckmark from "../Modules/GreenCheckMark";
-
+import { useParams } from "next/navigation";
+import * as db from "../../../Database";
 function AssignmentControl() {
   return (
     <div className="d-flex align-items-center">
@@ -17,27 +18,8 @@ function AssignmentControl() {
 }
 
 export default function Assignments() {
-  const assignments = [
-    {
-      id: 123,
-      title: "A1 – ENV + HTML",
-      sub1: "Multiple Modules | Not available until May 6 at 12:00 am",
-      sub2: "Due May 13 at 11:59 pm | 100 pts",
-    },
-    {
-      id: 124,
-      title: "A2 – CSS + Bootstrap",
-      sub1: "Multiple Modules | Available from May 13",
-      sub2: "Due May 20 at 11:59 pm | 100 pts",
-    },
-    {
-      id: 125,
-      title: "A3 – JavaScript + DOM",
-      sub1: "Multiple Modules | Available from May 20",
-      sub2: "Due May 27 at 11:59 pm | 100 pts",
-    },
-  ];
-
+  const { cid } = useParams();
+  const assignments = db.assignments;
   return (
     <div id="wd-assignments" style={{ padding: "15px" }}>
       <div className="d-flex align-items-center mb-3">
@@ -74,33 +56,55 @@ export default function Assignments() {
           </div>
 
           <ListGroup className="wd-lessons rounded-0">
-            {assignments.map((a) => (
-              <ListGroupItem
-                key={a.id}
-                className="wd-lesson p-3 d-flex justify-content-between align-items-center border-0 border-bottom"
-                style={{ backgroundColor: "#fff" }}
-              >
-                <div className="d-flex align-items-start">
-                  <BsGripVertical className="me-2 fs-4 text-secondary mt-1" />
-                  <MdAssignment className="me-3 fs-4 text-secondary mt-1" />
-                  <div>
-                    <Link
-                      href={`/Courses/1234/Assignments/${a.id}`}
-                      className="fw-bold text-dark text-decoration-none"
-                    >
-                      {a.title}
-                    </Link>
-                    <div className="text-muted small">
-                      {a.sub1}
-                      <br />
-                      {a.sub2}
+            {assignments
+              .filter((assignment) => assignment.course == cid)
+              .map((a) => (
+                <ListGroupItem
+                  key={a._id}
+                  className="wd-lesson p-3 d-flex justify-content-between align-items-center border-0 border-bottom"
+                  style={{ backgroundColor: "#fff" }}
+                >
+                  <div
+                    className="d-flex align-items-start p-2 mb-2 "
+                    style={{
+                      backgroundColor: "#fff",
+                      transition: "box-shadow 0.2s ease, transform 0.2s ease",
+                    }}
+                  >
+                    <BsGripVertical className="me-3 fs-4 text-secondary mt-1 opacity-75" />
+                    <MdAssignment className="me-3 fs-4 text-primary mt-1" />
+                    <div className="flex-grow-1">
+                      <Link
+                        href={`/Courses/${cid}/Assignments/${a._id}`}
+                        className="fw-semibold text-dark text-decoration-none d-block mb-1"
+                        style={{ fontSize: "1rem" }}
+                      >
+                        {a.title}
+                      </Link>
+                      <div
+                        className="text-muted small"
+                        style={{
+                          lineHeight: "1.5",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {a.description}
+                      </div>
+                      <div className="mt-1 text-secondary small">
+                        <strong>Due:</strong> {a.due} &nbsp; | &nbsp;
+                        <strong>Available:</strong> {a.available} &nbsp; |
+                        &nbsp;
+                        <strong>Points:</strong> {a.points}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <AssignmentControl />
-              </ListGroupItem>
-            ))}
+                  <AssignmentControl />
+                </ListGroupItem>
+              ))}
           </ListGroup>
         </ListGroupItem>
       </ListGroup>

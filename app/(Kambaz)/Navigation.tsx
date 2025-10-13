@@ -21,7 +21,7 @@ import { BiBook } from "react-icons/bi";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import CourseNavigation from "./Courses/[cid]/Navigation";
-
+import { courses } from "./Database";
 export default function KambazNavigation() {
   const pathname = usePathname();
   const router = useRouter();
@@ -91,18 +91,6 @@ export default function KambazNavigation() {
       icon: <BiBook style={{ color: "#dc3545", fontSize: "30px" }} />,
       label: "Labs",
     },
-  ];
-
-  const allCourses = [
-    { id: "1234", code: "CS1234", title: "React JS" },
-    { id: "2345", code: "CS2345", title: "Node JS" },
-    { id: "3456", code: "CS3456", title: "MongoDB" },
-    { id: "4567", code: "CS4567", title: "Java Programming" },
-    { id: "5678", code: "CS5678", title: "Python" },
-    { id: "6789", code: "CS6789", title: "HTML & CSS" },
-    { id: "7890", code: "CS7890", title: "DevOps" },
-    { id: "8901", code: "CS8901", title: "Data Structures" },
-    { id: "9012", code: "CS9012", title: "Cyber Security" },
   ];
 
   const isCoursePage = pathname?.startsWith("/Courses");
@@ -297,10 +285,10 @@ export default function KambazNavigation() {
                           width: "100%",
                         }}
                       />
-                      {allCourses.map((c) => (
+                      {courses.map((c) => (
                         <button
-                          key={c.id}
-                          onClick={() => goToCourse(c.id)}
+                          key={c._id}
+                          onClick={() => goToCourse(c._id)}
                           className="w-100 text-start btn"
                           style={{
                             background: "transparent",
@@ -310,7 +298,7 @@ export default function KambazNavigation() {
                             padding: "8px 6px",
                           }}
                         >
-                          {c.code} — {c.title}
+                          {c.number} — {c.name}
                         </button>
                       ))}
                       <div
@@ -638,9 +626,9 @@ export default function KambazNavigation() {
               overflowY: "auto",
             }}
           >
-            {allCourses.map((c) => (
+            {courses.map((c) => (
               <div
-                key={c.id}
+                key={c._id}
                 className="d-flex align-items-center"
                 style={{
                   padding: "10px 12px",
@@ -648,15 +636,13 @@ export default function KambazNavigation() {
                   marginBottom: 8,
                   cursor: "pointer",
                 }}
-                onClick={() => goToCourse(c.id)}
+                onClick={() => goToCourse(c._id)}
               >
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, color: "#dc3545" }}>
-                    {c.code}
+                    {c.number}
                   </div>
-                  <div style={{ fontSize: 13, color: "#7a1b23" }}>
-                    {c.title}
-                  </div>
+                  <div style={{ fontSize: 13, color: "#7a1b23" }}>{c.name}</div>
                 </div>
                 <div style={{ color: "#b02a37", fontWeight: 600 }}>Open</div>
               </div>
