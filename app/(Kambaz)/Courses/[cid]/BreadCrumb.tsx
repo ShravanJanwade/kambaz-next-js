@@ -8,6 +8,7 @@ export default function Breadcrumb({
   course: { name: string } | undefined;
 }) {
   const pathname = usePathname();
+
   const assignment = pathname.includes("Assignments/");
   return (
     <span>
