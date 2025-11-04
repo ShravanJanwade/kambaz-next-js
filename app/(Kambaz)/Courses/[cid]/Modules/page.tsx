@@ -38,6 +38,7 @@ interface Module {
 export default function Modules() {
   const { cid } = useParams<{ cid: string }>();
   const [moduleName, setModuleName] = useState("");
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
 
   // UI state for adding/editing lessons
   const [addLessonForModule, setAddLessonForModule] = useState<string | null>(
@@ -163,19 +164,21 @@ export default function Modules() {
 
                 {/* Parent row — place inside your module list render */}
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <ModuleControlButtons
-                    moduleId={module._id}
-                    isAddOpen={addLessonForModule === module._id}
-                    onToggleAdd={() =>
-                      setAddLessonForModule((prev) =>
-                        prev === module._id ? null : module._id
-                      )
-                    }
-                    deleteModule={(moduleId) =>
-                      dispatch(deleteModule(moduleId))
-                    }
-                    editModule={(moduleId) => dispatch(editModule(moduleId))}
-                  />
+                  {currentUser?.role === "FACULTY" && (
+                    <ModuleControlButtons
+                      moduleId={module._id}
+                      isAddOpen={addLessonForModule === module._id}
+                      onToggleAdd={() =>
+                        setAddLessonForModule((prev) =>
+                          prev === module._id ? null : module._id
+                        )
+                      }
+                      deleteModule={(moduleId) =>
+                        dispatch(deleteModule(moduleId))
+                      }
+                      editModule={(moduleId) => dispatch(editModule(moduleId))}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -264,38 +267,40 @@ export default function Modules() {
                       </div>
 
                       {/* three-dot dropdown for lesson actions */}
-                      <div>
-                        <Dropdown align="end">
-                          <Dropdown.Toggle
-                            variant="link"
-                            id={`dropdown-${lesson.id}`}
-                            style={{
-                              textDecoration: "none",
-                              color: "inherit",
-                              cursor: "pointer",
-                            }}
-                          >
-                            <span style={{ fontSize: 18 }}>⋮</span>
-                          </Dropdown.Toggle>
+                      {currentUser?.role === "FACULTY" && (
+                        <div>
+                          <Dropdown align="end">
+                            <Dropdown.Toggle
+                              variant="link"
+                              id={`dropdown-${lesson.id}`}
+                              style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <span style={{ fontSize: 18 }}>⋮</span>
+                            </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() =>
-                                handleStartEditLesson(module, lesson.id)
-                              }
-                            >
-                              Edit
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                handleDeleteLesson(module, lesson.id)
-                              }
-                            >
-                              Delete
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </div>
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                onClick={() =>
+                                  handleStartEditLesson(module, lesson.id)
+                                }
+                              >
+                                Edit
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                onClick={() =>
+                                  handleDeleteLesson(module, lesson.id)
+                                }
+                              >
+                                Delete
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
+                      )}
                     </ListGroupItem>
                   ))}
                 </ListGroup>

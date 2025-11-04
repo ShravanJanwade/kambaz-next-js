@@ -20,8 +20,20 @@ import { BiBook } from "react-icons/bi";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import CourseNavigation from "./Courses/[cid]/Navigation";
-import { courses } from "./Database";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+
+type Course = {
+  _id: string;
+  name: string;
+  number: string;
+  startDate?: string;
+  endDate?: string;
+  image?: string;
+  description?: string;
+};
+
 export default function KambazNavigation() {
   const pathname = usePathname();
   const router = useRouter();
@@ -29,11 +41,33 @@ export default function KambazNavigation() {
   const [courseOpen, setCourseOpen] = useState(false);
   const [desktopCoursePanelOpen, setDesktopCoursePanelOpen] = useState(false);
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false);
-  const courseIdMatch = pathname?.match(/^\/Courses\/(\d+)/);
+  const courseIdMatch = pathname?.match(/^\/Courses\/([^/]+)/);
   const courseId = courseIdMatch ? courseIdMatch[1] : null;
   const [mobileAccountOpen, setMobileAccountOpen] = useState(false);
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+  const [showAllCourses, setShowAllCourses] = useState(false);
+  const links = currentUser
+    ? [{ href: "/Account/Profile", label: "Profile" }]
+    : [
+        { href: "/Account/Signin", label: "Signin" },
+        { href: "/Account/Signup", label: "Signup" },
+      ];
+  const { courses, enrolledCourses } = useSelector(
+    (state: RootState) => state.coursesReducer
+  );
 
+  const displayedCourses =
+    currentUser?.role === "FACULTY"
+      ? courses
+      : showAllCourses
+      ? courses
+      : courses.filter((c) => enrolledCourses.includes(c._id));
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    console.log(displayedCourses, "shravan");
+    console.log(enrolledCourses, "shravan");
+    console.log(courses, "shravan");
+  });
   useEffect(() => {
     const el = document.createElement("div");
     el.id = "kambaz-portal";
@@ -105,7 +139,15 @@ export default function KambazNavigation() {
   const DESKTOP_PANEL_MIN = 320;
   const DESKTOP_PANEL_MAX = 560;
   const panelWidthCSS = `min(max(${DESKTOP_PANEL_WIDTH_PERCENT}vw, ${DESKTOP_PANEL_MIN}px), ${DESKTOP_PANEL_MAX}px)`;
-  const mobileTitle = courseId ? `Course ${courseId}` : "Kambaz";
+
+  const currentCourse = courseId
+    ? displayedCourses.find((c) => c._id === courseId)
+    : undefined;
+  const mobileTitle = currentCourse
+    ? `${currentCourse.number} — ${currentCourse.name}`
+    : courseId
+    ? `Course ${courseId}`
+    : "Kambaz";
 
   const goToCourse = (courseId: string) => {
     router.push(`/Courses/${courseId}/Home`);
@@ -213,11 +255,7 @@ export default function KambazNavigation() {
                           width: "100%",
                         }}
                       />
-                      {[
-                        { href: "/Account/Signin", label: "Signin" },
-                        { href: "/Account/Signup", label: "Signup" },
-                        { href: "/Account/Profile", label: "Profile" },
-                      ].map((link) => (
+                      {links.map((link) => (
                         <Link
                           key={link.href}
                           href={link.href}
@@ -288,7 +326,7 @@ export default function KambazNavigation() {
                           width: "100%",
                         }}
                       />
-                      {courses.map((c) => (
+                      {displayedCourses.map((c) => (
                         <button
                           key={c._id}
                           onClick={() => goToCourse(c._id)}
@@ -630,7 +668,7 @@ export default function KambazNavigation() {
               overflowY: "auto",
             }}
           >
-            {courses.map((c) => (
+            {displayedCourses.map((c) => (
               <div
                 key={c._id}
                 className="d-flex align-items-center"

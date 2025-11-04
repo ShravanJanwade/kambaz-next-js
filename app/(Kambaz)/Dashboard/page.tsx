@@ -157,7 +157,7 @@ export default function Dashboard() {
             onClick={() => setShowAllCourses(!showAllCourses)}
             id="wd-enrollments-button"
           >
-            {showAllCourses ? "My Courses" : "All Courses"}
+            {showAllCourses ? "My Courses" : "Enrollments"}
           </Button>
         )}
       </div>
