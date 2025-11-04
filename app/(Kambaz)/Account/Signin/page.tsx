@@ -148,7 +148,9 @@ export default function SignIn() {
 
                 <div className={styles.footerRow}>
                   <p className="mb-0">
-                    <span className={styles.muted}>Don't have an account?</span>{" "}
+                    <span className={styles.muted}>
+                      {"Don't"} have an account?
+                    </span>{" "}
                     <Link href="/Account/Signup" className={styles.link}>
                       Create one
                     </Link>
