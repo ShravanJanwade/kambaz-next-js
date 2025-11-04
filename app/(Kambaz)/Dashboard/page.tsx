@@ -20,6 +20,15 @@ import {
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+export interface Course {
+  _id: string;
+  name: string;
+  number: string;
+  startDate: string;
+  endDate: string;
+  image: string;
+  description: string;
+}
 
 export default function Dashboard() {
   const { courses, enrolledCourses } = useSelector(
@@ -31,7 +40,7 @@ export default function Dashboard() {
 
   const [showAllCourses, setShowAllCourses] = useState(false);
 
-  const [course, setCourse] = useState<any>({
+  const [course, setCourse] = useState<Course>({
     _id: uuidv4(),
     name: "New Course",
     number: "New Number",
@@ -52,8 +61,8 @@ export default function Dashboard() {
 
     // Set enrolled courses for current user
     const userEnrollments = db.enrollments
-      .filter((e: any) => e.user === currentUser._id)
-      .map((e: any) => e.course);
+      .filter((e) => e.user === currentUser._id)
+      .map((e) => e.course);
     dispatch(setEnrolledCourses(userEnrollments));
   }, [currentUser, dispatch, router]);
 

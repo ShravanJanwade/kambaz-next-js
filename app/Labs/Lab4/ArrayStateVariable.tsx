@@ -42,7 +42,7 @@ export default function ArrayStateVariable() {
         ))}
       </ListGroup>
       <ListGroup>
-        {todos.map((todo: any) => (
+        {todos.map((todo) => (
           <ListGroupItem key={todo.id}>{todo.title}</ListGroupItem>
         ))}
       </ListGroup>

@@ -141,7 +141,7 @@ export default function SignIn() {
               {/* Sign Up Link */}
               <div className="text-center border-top pt-4">
                 <p className="text-muted mb-0">
-                  Don't have an account?{" "}
+                  {"Don't"} have an account?{" "}
                   <Link href="/Account/Signup" className={styles.link}>
                     Create one
                   </Link>
