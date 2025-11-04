@@ -15,7 +15,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import {
-  User,
+  User as UserIcon,
   Mail,
   Calendar,
   BookOpen,
@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import styles from "./profile.module.css";
 import { RootState } from "../../store";
+import type { User as UserType } from "../reducer";
 import { logout, updateUserProfile } from "../reducer";
 
 export default function Profile() {
@@ -33,14 +34,36 @@ export default function Profile() {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [formData, setFormData] = useState(currentUser || {});
 
+  // A safe default so formData is always a concrete UserType object.
+  const emptyUser: UserType = {
+    _id: "",
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    dob: "",
+    role: "STUDENT",
+    loginId: "",
+    section: "",
+    lastActivity: "",
+    totalActivity: "",
+  };
+
+  // Initialize formData with currentUser if available, otherwise a safe empty user.
+  const [formData, setFormData] = useState<UserType>(currentUser ?? emptyUser);
+
+  // Redirect to signin if not logged in. Keep formData in sync when currentUser changes.
   useEffect(() => {
     if (!currentUser) {
       router.push("/Account/Signin");
+      return;
     }
+    setFormData(currentUser);
   }, [currentUser, router]);
 
+  // If still no currentUser (short window), show spinner
   if (!currentUser) {
     return (
       <div
@@ -55,18 +78,23 @@ export default function Profile() {
   }
 
   const handleSave = () => {
+    // disable double saves
+    if (isSaving) return;
     setIsSaving(true);
-    dispatch(updateUserProfile(formData));
+
+    // updateUserProfile expects Partial<User>, passing full User is OK
+    dispatch(updateUserProfile(formData as Partial<UserType>));
     setIsEditing(false);
     setIsSaving(false);
   };
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/Account/signin");
+    router.push("/Account/Signin");
   };
 
   const handleCancel = () => {
+    // reset form data to the latest currentUser
     setFormData(currentUser);
     setIsEditing(false);
   };
@@ -92,7 +120,7 @@ export default function Profile() {
               <Row className="align-items-center">
                 <Col md="auto" className="text-center text-md-start">
                   <div className={styles.avatar}>
-                    <User size={40} />
+                    <UserIcon size={40} />
                   </div>
                 </Col>
                 <Col md className="mt-3 mt-md-0">
@@ -115,12 +143,12 @@ export default function Profile() {
                   <Col md={6}>
                     <Form.Group>
                       <Form.Label className="fw-600">
-                        <User size={16} className="me-2" />
+                        <UserIcon size={16} className="me-2" />
                         First Name
                       </Form.Label>
                       <Form.Control
                         type="text"
-                        value={formData.firstName || ""}
+                        value={formData.firstName}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -137,7 +165,7 @@ export default function Profile() {
                       <Form.Label className="fw-600">Last Name</Form.Label>
                       <Form.Control
                         type="text"
-                        value={formData.lastName || ""}
+                        value={formData.lastName}
                         onChange={(e) =>
                           setFormData({ ...formData, lastName: e.target.value })
                         }
@@ -151,12 +179,12 @@ export default function Profile() {
                 {/* Username Field (Read-only) */}
                 <Form.Group className="mb-4">
                   <Form.Label className="fw-600">
-                    <User size={16} className="me-2" />
+                    <UserIcon size={16} className="me-2" />
                     Username
                   </Form.Label>
                   <Form.Control
                     type="text"
-                    value={formData.username || ""}
+                    value={formData.username}
                     disabled
                     className={`${styles.input} bg-light`}
                   />
@@ -170,7 +198,7 @@ export default function Profile() {
                   </Form.Label>
                   <Form.Control
                     type="email"
-                    value={formData.email || ""}
+                    value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
@@ -187,7 +215,7 @@ export default function Profile() {
                   </Form.Label>
                   <Form.Control
                     type="date"
-                    value={formData.dob || ""}
+                    value={formData.dob}
                     onChange={(e) =>
                       setFormData({ ...formData, dob: e.target.value })
                     }
@@ -204,7 +232,7 @@ export default function Profile() {
                   </Form.Label>
                   <Form.Control
                     as="select"
-                    value={formData.role || "STUDENT"}
+                    value={formData.role}
                     disabled
                     className={`${styles.input} bg-light`}
                   >
