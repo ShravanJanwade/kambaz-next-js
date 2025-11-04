@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+export type Role = "USER" | "ADMIN" | "FACULTY" | "STUDENT" | "TA";
 
 export interface User {
   _id: string;
@@ -8,7 +9,7 @@ export interface User {
   lastName: string;
   email: string;
   dob: string;
-  role: "USER" | "ADMIN" | "FACULTY" | "STUDENT" | "TA";
+  role: string;
   loginId: string;
   section: string;
   lastActivity: string;

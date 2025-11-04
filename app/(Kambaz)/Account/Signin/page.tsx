@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Container, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
-import { Mail, Lock, ArrowRight, CheckCircle } from "lucide-react";
+import { Mail, Lock, ArrowRight } from "lucide-react";
 import styles from "./signin.module.css";
 import { RootState } from "../../store";
 import { clearAuthError, setAuthError, setCurrentUser } from "../reducer";

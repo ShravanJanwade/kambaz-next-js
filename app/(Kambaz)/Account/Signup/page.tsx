@@ -15,7 +15,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { User, Mail, Lock, ArrowRight, CheckCircle } from "lucide-react";
+import { User, Mail, Lock, ArrowRight } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./signup.module.css";
 import { users } from "../../Database";
