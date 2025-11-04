@@ -1,5 +1,6 @@
 [
   {
+    "_id": "M101",
     "name": "Introduction to Rocket Propulsion",
     "description": "Fundamental concepts of rocket propulsion, including engine mechanics, thrust generation, and the history of rocket development.",
     "course": "RS101",
@@ -25,6 +26,7 @@
     ]
   },
   {
+    "_id": "M102",
     "name": "Fuel and Combustion",
     "description": "An in-depth study of rocket fuels, combustion chemistry, and performance optimization.",
     "course": "RS101",
@@ -50,6 +52,7 @@
     ]
   },
   {
+    "_id": "M103",
     "name": "Nozzle Design",
     "description": "Study of nozzle geometry, flow expansion, and optimization for thrust performance.",
     "course": "RS101",
@@ -75,6 +78,7 @@
     ]
   },
   {
+    "_id": "M201",
     "name": "Fundamentals of Aerodynamics",
     "description": "Comprehensive introduction to fluid dynamics, airfoils, and aerodynamic forces.",
     "course": "RS102",
@@ -100,6 +104,7 @@
     ]
   },
   {
+    "_id": "M202",
     "name": "Subsonic and Supersonic Flow",
     "description": "Study of airflow behaviors at different speeds and Mach numbers.",
     "course": "RS102",
@@ -125,6 +130,7 @@
     ]
   },
   {
+    "_id": "M203",
     "name": "Aerodynamic Heating",
     "description": "Exploring thermal effects on high-speed vehicles and protective materials.",
     "course": "RS102",
@@ -150,6 +156,7 @@
     ]
   },
   {
+    "_id": "M301",
     "name": "Spacecraft Structural Design",
     "description": "Introduction to spacecraft materials, load-bearing structures, and design methodologies.",
     "course": "RS103",
@@ -175,6 +182,7 @@
     ]
   },
   {
+    "_id": "M302",
     "name": "Orbital Mechanics",
     "description": "Study of motion and forces governing spacecraft trajectories and orbits.",
     "course": "RS103",
@@ -200,6 +208,7 @@
     ]
   },
   {
+    "_id": "M303",
     "name": "Spacecraft Systems Engineering",
     "description": "Integration and management of spacecraft subsystems for mission success.",
     "course": "RS103",
@@ -225,6 +234,7 @@
     ]
   },
   {
+    "_id": "M401",
     "name": "Hydrocarbons and Functional Groups",
     "description": "Introduction to the structure, naming, and reactions of hydrocarbons and functional groups.",
     "course": "RS104",
@@ -250,6 +260,7 @@
     ]
   },
   {
+    "_id": "M501",
     "name": "Coordination Chemistry",
     "description": "Study of metal complexes, bonding, and coordination compounds.",
     "course": "RS105",
@@ -275,6 +286,7 @@
     ]
   },
   {
+    "_id": "M601",
     "name": "Thermodynamics and Kinetics",
     "description": "Exploring chemical energetics and reaction rates.",
     "course": "RS106",
@@ -300,6 +312,7 @@
     ]
   },
   {
+    "_id": "M701",
     "name": "Elvish Linguistics",
     "description": "Study of the grammar, phonetics, and writing systems of Elvish languages in Middle-earth.",
     "course": "RS107",
@@ -325,6 +338,7 @@
     ]
   },
   {
+    "_id": "M801",
     "name": "Diplomatic Relations in Middle-earth",
     "description": "Analyzing historical and political relationships among Elves, Men, and Dwarves.",
     "course": "RS108",

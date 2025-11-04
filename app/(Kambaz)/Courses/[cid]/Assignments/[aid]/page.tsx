@@ -1,11 +1,143 @@
 "use client";
-import { useParams } from "next/navigation";
-import { assignments } from "@/app/(Kambaz)/Database";
+import { useParams, useRouter } from "next/navigation";
+import type React from "react";
+
+import { useState, useEffect } from "react";
+import type { RootState } from "../../../../store";
+import { useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import { useAppDispatch } from "@/app/(Kambaz)/hooks";
+import { addAssignment, updateAssignment } from "../reducer";
 export default function AssignmentEditor() {
-  const { aid } = useParams();
+  const { aid, cid } = useParams();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const assignments = useSelector(
+    (state: RootState) => state.assignments.assignments
+  );
   const assignment = assignments.find((a) => a._id == aid);
-  const assignmentName = assignment?.title;
-  const assignmentDescription = assignment?.description;
+  const isNewAssignment = aid === "new";
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    points: 100,
+    assignGroup: "ASSIGNMENTS",
+    displayGradeAs: "Percentage",
+    submissionType: "Online",
+    assignTo: "Everyone",
+    available: "",
+    due: "",
+    until: "",
+    textEntry: false,
+    websiteUrl: true,
+    mediaRecordings: false,
+    studentAnnotation: false,
+    fileUpload: false,
+  });
+
+  useEffect(() => {
+    if (assignment && !isNewAssignment) {
+      setFormData({
+        title: assignment.title,
+        description: assignment.description,
+        points: assignment.points,
+        assignGroup: "ASSIGNMENTS",
+        displayGradeAs: "Percentage",
+        submissionType: "Online",
+        assignTo: "Everyone",
+        available: assignment.available,
+        due: assignment.due,
+        until: assignment.until,
+        textEntry: false,
+        websiteUrl: true,
+        mediaRecordings: false,
+        studentAnnotation: false,
+        fileUpload: false,
+      });
+    }
+  }, [assignment, isNewAssignment]);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { id, value, type } = e.target as HTMLInputElement;
+
+    // Map field IDs to formData keys
+    const fieldMap: { [key: string]: string } = {
+      "wd-name": "title",
+      "wd-description": "description",
+      "wd-points": "points",
+      "wd-group": "assignGroup",
+      "wd-display-grade-as": "displayGradeAs",
+      "wd-submission-type": "submissionType",
+      "wd-assign-to": "assignTo",
+      "wd-due-date": "due",
+      "wd-available-from": "available",
+      "wd-available-until": "until",
+      "wd-text-entry": "textEntry",
+      "wd-website-url": "websiteUrl",
+      "wd-media-recordings": "mediaRecordings",
+      "wd-student-annotation": "studentAnnotation",
+      "wd-file-upload": "fileUpload",
+    };
+
+    const fieldName = fieldMap[id] || id;
+
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        [fieldName]: (e.target as HTMLInputElement).checked,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [fieldName]: value,
+      }));
+    }
+  };
+
+  const handleSave = () => {
+    if (!formData.title.trim()) {
+      alert("Assignment name is required");
+      return;
+    }
+
+    if (isNewAssignment) {
+      const newAssignment = {
+        _id: uuidv4(),
+        title: formData.title,
+        description: formData.description,
+        course: cid as string,
+        available: formData.available,
+        due: formData.due,
+        until: formData.until,
+        points: formData.points,
+      };
+      dispatch(addAssignment(newAssignment));
+    } else {
+      const updatedAssignment = {
+        _id: assignment!._id,
+        title: formData.title,
+        description: formData.description,
+        course: assignment!.course,
+        available: formData.available,
+        due: formData.due,
+        until: formData.until,
+        points: formData.points,
+      };
+      dispatch(updateAssignment(updatedAssignment));
+    }
+
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+
+  const handleCancel = () => {
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+
   return (
     <div
       id="wd-assignments-editor"
@@ -114,13 +246,11 @@ export default function AssignmentEditor() {
             grid-template-columns: 1fr;
             column-gap: 0;
           }
-          /* default mobile alignment for labels/fields */
           .row-label { text-align: left; }
           .col-field { justify-content: flex-start; }
           .compact { width: 100%; }
           .controls-box, .field-box, .full-span-box { width: 100%; }
 
-          /* ensure labels that are 'label-top' (Submission Type, Assign) are left-aligned on mobile */
           .row-label.label-top,
           .row-label.label-top.assign-left {
             text-align: left;
@@ -136,7 +266,8 @@ export default function AssignmentEditor() {
             </label>
             <input
               id="wd-name"
-              defaultValue={assignmentName}
+              value={formData.title}
+              onChange={handleChange}
               className="form-control"
             />
           </div>
@@ -148,7 +279,19 @@ export default function AssignmentEditor() {
           className="span-full full-span-box"
           style={{ background: "#fafafa" }}
         >
-          <p>{assignmentDescription}</p>
+          <label
+            htmlFor="wd-description"
+            className="row-label assign-left d-block mb-2"
+          >
+            Description
+          </label>
+          <textarea
+            id="wd-description"
+            value={formData.description}
+            onChange={handleChange}
+            className="form-control"
+            rows={4}
+          />
         </div>
       </div>
 
@@ -159,7 +302,9 @@ export default function AssignmentEditor() {
         <div className="col-field ms-4">
           <input
             id="wd-points"
-            defaultValue={assignment?.points}
+            type="number"
+            value={formData.points}
+            onChange={handleChange}
             className="form-control"
           />
         </div>
@@ -172,7 +317,8 @@ export default function AssignmentEditor() {
         <div className="col-field">
           <select
             id="wd-group"
-            defaultValue="ASSIGNMENTS"
+            value={formData.assignGroup}
+            onChange={handleChange}
             className="form-select ms-4"
           >
             <option>ASSIGNMENTS</option>
@@ -190,7 +336,8 @@ export default function AssignmentEditor() {
         <div className="col-field">
           <select
             id="wd-display-grade-as"
-            defaultValue="Percentage"
+            value={formData.displayGradeAs}
+            onChange={handleChange}
             className="form-select ms-4"
           >
             <option>Percentage</option>
@@ -208,7 +355,8 @@ export default function AssignmentEditor() {
             <div className="mb-2">
               <select
                 id="wd-submission-type"
-                defaultValue="Online"
+                value={formData.submissionType}
+                onChange={handleChange}
                 className="form-select mb-2"
               >
                 <option>Online</option>
@@ -225,6 +373,8 @@ export default function AssignmentEditor() {
                     className="form-check-input"
                     type="checkbox"
                     id="wd-text-entry"
+                    checked={formData.textEntry}
+                    onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="wd-text-entry">
                     Text Entry
@@ -235,7 +385,8 @@ export default function AssignmentEditor() {
                     className="form-check-input"
                     type="checkbox"
                     id="wd-website-url"
-                    defaultChecked
+                    checked={formData.websiteUrl}
+                    onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="wd-website-url">
                     Website URL
@@ -246,6 +397,8 @@ export default function AssignmentEditor() {
                     className="form-check-input"
                     type="checkbox"
                     id="wd-media-recordings"
+                    checked={formData.mediaRecordings}
+                    onChange={handleChange}
                   />
                   <label
                     className="form-check-label"
@@ -259,6 +412,8 @@ export default function AssignmentEditor() {
                     className="form-check-input"
                     type="checkbox"
                     id="wd-student-annotation"
+                    checked={formData.studentAnnotation}
+                    onChange={handleChange}
                   />
                   <label
                     className="form-check-label"
@@ -272,6 +427,8 @@ export default function AssignmentEditor() {
                     className="form-check-input"
                     type="checkbox"
                     id="wd-file-upload"
+                    checked={formData.fileUpload}
+                    onChange={handleChange}
                   />
                   <label className="form-check-label" htmlFor="wd-file-upload">
                     File Uploads
@@ -293,7 +450,8 @@ export default function AssignmentEditor() {
               </label>
               <input
                 id="wd-assign-to"
-                defaultValue="Everyone"
+                value={formData.assignTo}
+                onChange={handleChange}
                 className="form-control"
               />
             </div>
@@ -305,7 +463,8 @@ export default function AssignmentEditor() {
               <input
                 type="datetime-local"
                 id="wd-due-date"
-                defaultValue={assignment?.due}
+                value={formData.due}
+                onChange={handleChange}
                 className="form-control"
               />
             </div>
@@ -318,7 +477,8 @@ export default function AssignmentEditor() {
                 <input
                   type="datetime-local"
                   id="wd-available-from"
-                  defaultValue={assignment?.available}
+                  value={formData.available}
+                  onChange={handleChange}
                   className="form-control"
                 />
               </div>
@@ -329,7 +489,8 @@ export default function AssignmentEditor() {
                 <input
                   type="datetime-local"
                   id="wd-available-until"
-                  defaultValue="2024-05-28T23:59"
+                  value={formData.until}
+                  onChange={handleChange}
                   className="form-control"
                 />
               </div>
@@ -339,8 +500,12 @@ export default function AssignmentEditor() {
       </div>
       <hr />
       <div className="mt-3 actions">
-        <button className="btn btn-light me-2">Cancel</button>
-        <button className="btn btn-danger">Save</button>
+        <button className="btn btn-light me-2" onClick={handleCancel}>
+          Cancel
+        </button>
+        <button className="btn btn-danger" onClick={handleSave}>
+          Save
+        </button>
       </div>
     </div>
   );
