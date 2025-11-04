@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import type React from "react";
-
 import { Row, Col, Card, FormControl, Button } from "react-bootstrap";
 import { LuNotebookPen } from "react-icons/lu";
 import * as db from "../Database";
