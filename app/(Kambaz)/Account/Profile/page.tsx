@@ -15,16 +15,17 @@ import {
   Spinner,
 } from "react-bootstrap";
 import {
-  User as UserIcon,
+  UserIcon,
   Mail,
   Calendar,
   BookOpen,
   LogOut,
   Edit2,
   Save,
+  ArrowLeft,
 } from "lucide-react";
 import styles from "./profile.module.css";
-import { RootState } from "../../store";
+import type { RootState } from "../../store";
 import type { User as UserType } from "../reducer";
 import { logout, updateUserProfile } from "../reducer";
 
@@ -35,7 +36,6 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // A safe default so formData is always a concrete UserType object.
   const emptyUser: UserType = {
     _id: "",
     username: "",
@@ -51,10 +51,8 @@ export default function Profile() {
     totalActivity: "",
   };
 
-  // Initialize formData with currentUser if available, otherwise a safe empty user.
   const [formData, setFormData] = useState<UserType>(currentUser ?? emptyUser);
 
-  // Redirect to signin if not logged in. Keep formData in sync when currentUser changes.
   useEffect(() => {
     if (!currentUser) {
       router.push("/Account/Signin");
@@ -63,7 +61,6 @@ export default function Profile() {
     setFormData(currentUser);
   }, [currentUser, router]);
 
-  // If still no currentUser (short window), show spinner
   if (!currentUser) {
     return (
       <div
@@ -78,11 +75,9 @@ export default function Profile() {
   }
 
   const handleSave = () => {
-    // disable double saves
     if (isSaving) return;
     setIsSaving(true);
 
-    // updateUserProfile expects Partial<User>, passing full User is OK
     dispatch(updateUserProfile(formData as Partial<UserType>));
     setIsEditing(false);
     setIsSaving(false);
@@ -94,29 +89,29 @@ export default function Profile() {
   };
 
   const handleCancel = () => {
-    // reset form data to the latest currentUser
     setFormData(currentUser);
     setIsEditing(false);
   };
 
   return (
-    <div>
-      <Container className={styles.centerContent}>
-        <Link href="/dashboard" className={styles.backLink}>
-          ← Back to Dashboard
+    <div className={styles.page}>
+      <Container className={styles.container}>
+        <Link href="/Dashboard" className={styles.backLink}>
+          <ArrowLeft size={18} className="me-2" />
+          Back to Dashboard
         </Link>
 
-        <div className="mt-5">
+        <div className={styles.inner}>
           {/* Header */}
-          <div className="mb-5">
-            <h1 className="display-4 fw-bold">My Profile</h1>
-            <p className="text-muted">Manage your account information</p>
+          <div className={styles.hero}>
+            <h1 className={styles.title}>My Profile</h1>
+            <p className={styles.subtitle}>Manage your account information</p>
           </div>
 
           {/* Main Card */}
-          <Card className={`${styles.profileCard} shadow-lg border-0`}>
+          <Card className={`${styles.profileCard} border-0`}>
             {/* Avatar Section */}
-            <Card.Body className={`${styles.avatarSection} p-5 border-bottom`}>
+            <Card.Body className={`${styles.avatarSection} border-bottom`}>
               <Row className="align-items-center">
                 <Col md="auto" className="text-center text-md-start">
                   <div className={styles.avatar}>
@@ -124,25 +119,23 @@ export default function Profile() {
                   </div>
                 </Col>
                 <Col md className="mt-3 mt-md-0">
-                  <h2 className="h3 fw-bold mb-1">
+                  <h2 className={styles.userName}>
                     {currentUser.firstName} {currentUser.lastName}
                   </h2>
-                  <p className="text-muted mb-2">@{currentUser.username}</p>
-                  <span className={`badge ${styles.roleBadge}`}>
-                    {currentUser.role}
-                  </span>
+                  <p className={styles.username}>@{currentUser.username}</p>
+                  <span className={styles.roleBadge}>{currentUser.role}</span>
                 </Col>
               </Row>
             </Card.Body>
 
             {/* Form Section */}
-            <Card.Body className="p-5">
+            <Card.Body className={styles.formBody}>
               <Form>
                 {/* Name Fields */}
                 <Row className="mb-4">
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label className="fw-600">
+                      <Form.Label className={styles.label}>
                         <UserIcon size={16} className="me-2" />
                         First Name
                       </Form.Label>
@@ -162,7 +155,9 @@ export default function Profile() {
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label className="fw-600">Last Name</Form.Label>
+                      <Form.Label className={styles.label}>
+                        Last Name
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         value={formData.lastName}
@@ -178,7 +173,7 @@ export default function Profile() {
 
                 {/* Username Field (Read-only) */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">
+                  <Form.Label className={styles.label}>
                     <UserIcon size={16} className="me-2" />
                     Username
                   </Form.Label>
@@ -186,13 +181,13 @@ export default function Profile() {
                     type="text"
                     value={formData.username}
                     disabled
-                    className={`${styles.input} bg-light`}
+                    className={`${styles.input} ${styles.inputDisabled}`}
                   />
                 </Form.Group>
 
                 {/* Email Field */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">
+                  <Form.Label className={styles.label}>
                     <Mail size={16} className="me-2" />
                     Email
                   </Form.Label>
@@ -209,7 +204,7 @@ export default function Profile() {
 
                 {/* Date of Birth */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">
+                  <Form.Label className={styles.label}>
                     <Calendar size={16} className="me-2" />
                     Date of Birth
                   </Form.Label>
@@ -226,7 +221,7 @@ export default function Profile() {
 
                 {/* Role Field (Read-only) */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">
+                  <Form.Label className={styles.label}>
                     <BookOpen size={16} className="me-2" />
                     Role
                   </Form.Label>
@@ -234,7 +229,7 @@ export default function Profile() {
                     as="select"
                     value={formData.role}
                     disabled
-                    className={`${styles.input} bg-light`}
+                    className={`${styles.input} ${styles.inputDisabled}`}
                   >
                     <option>STUDENT</option>
                     <option>FACULTY</option>
@@ -246,20 +241,18 @@ export default function Profile() {
                 {/* Additional Info */}
                 <Row className="mb-4 pt-4 border-top">
                   <Col md={6}>
-                    <p className="text-muted small mb-1">Login ID</p>
-                    <p className="fw-600 font-monospace">
-                      {currentUser.loginId}
-                    </p>
+                    <p className={styles.infoLabel}>Login ID</p>
+                    <p className={styles.infoValue}>{currentUser.loginId}</p>
                   </Col>
                   <Col md={6}>
-                    <p className="text-muted small mb-1">Section</p>
-                    <p className="fw-600">{currentUser.section}</p>
+                    <p className={styles.infoLabel}>Section</p>
+                    <p className={styles.infoValue}>{currentUser.section}</p>
                   </Col>
                 </Row>
               </Form>
 
               {/* Action Buttons */}
-              <div className="d-flex gap-2 mt-5 pt-4 border-top">
+              <div className={`${styles.actionButtons} mt-5 pt-4 border-top`}>
                 {!isEditing ? (
                   <>
                     <Button
@@ -270,8 +263,7 @@ export default function Profile() {
                       Edit Profile
                     </Button>
                     <Button
-                      variant="outline-danger"
-                      className="flex-grow-1"
+                      className={`${styles.logoutBtn} flex-grow-1`}
                       onClick={handleLogout}
                     >
                       <LogOut size={18} className="me-2" />
@@ -303,11 +295,7 @@ export default function Profile() {
                         </>
                       )}
                     </Button>
-                    <Button
-                      variant="outline-secondary"
-                      className="flex-grow-1"
-                      onClick={handleCancel}
-                    >
+                    <Button className={styles.cancelBtn} onClick={handleCancel}>
                       Cancel
                     </Button>
                   </>

@@ -52,7 +52,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!currentUser) {
-      router.push("/auth/signin");
+      router.push("/Account/SignIn");
       return;
     }
 

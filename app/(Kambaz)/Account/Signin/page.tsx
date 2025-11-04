@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Container, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import styles from "./signin.module.css";
-import { RootState } from "../../store";
+import type { RootState } from "../../store";
 import { clearAuthError, setAuthError, setCurrentUser } from "../reducer";
 import { users } from "../../Database";
 
@@ -45,129 +45,136 @@ export default function SignIn() {
   };
 
   return (
-    <div>
-      <Container className={styles.centerContent}>
-        <div>
-          {/* Header Section */}
-          <div className="text-center mb-5">
-            <h1 className="display-5 fw-bold mt-3">Welcome Back</h1>
-            <p className="text-muted mt-2">
-              Sign in to continue your learning journey
-            </p>
-          </div>
+    <div className={styles.page}>
+      <Container className={styles.container}>
+        <div className={styles.inner}>
+          <main className={styles.main}>
+            <div className={styles.hero}>
+              <h1 className={styles.title}>Welcome Back</h1>
+              <p className={styles.subtitle}>
+                Sign in to continue your learning journey
+              </p>
+            </div>
 
-          {/* Form Card */}
-          <Card className={`${styles.formCard} shadow-lg border-0`}>
-            <Card.Body className="p-5">
-              <Form onSubmit={handleSignIn}>
-                {/* Error Alert */}
-                {error && (
-                  <Alert
-                    variant="danger"
-                    onClose={() => dispatch(clearAuthError())}
-                    dismissible
-                  >
-                    {error}
-                  </Alert>
-                )}
-
-                {/* Username Input */}
-                <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">Username</Form.Label>
-                  <div className={styles.inputGroup}>
-                    <Mail size={18} className={styles.inputIcon} />
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter your username"
-                      value={credentials.username}
-                      onChange={(e) =>
-                        setCredentials({
-                          ...credentials,
-                          username: e.target.value,
-                        })
-                      }
-                      disabled={isLoading}
-                      className={styles.input}
-                    />
-                  </div>
-                </Form.Group>
-
-                {/* Password Input */}
-                <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">Password</Form.Label>
-                  <div className={styles.inputGroup}>
-                    <Lock size={18} className={styles.inputIcon} />
-                    <Form.Control
-                      type="password"
-                      placeholder="Enter your password"
-                      value={credentials.password}
-                      onChange={(e) =>
-                        setCredentials({
-                          ...credentials,
-                          password: e.target.value,
-                        })
-                      }
-                      disabled={isLoading}
-                      className={styles.input}
-                    />
-                  </div>
-                </Form.Group>
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  className={`${styles.submitBtn} w-100 py-3 mb-4`}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        className="me-2"
-                      />
-                      Signing in...
-                    </>
-                  ) : (
-                    <>
-                      Sign In <ArrowRight size={18} className="ms-2" />
-                    </>
+            <Card className={`${styles.formCard} shadow-sm border-0`}>
+              <Card.Body className="p-4">
+                <Form onSubmit={handleSignIn} noValidate>
+                  {error && (
+                    <Alert
+                      variant="danger"
+                      onClose={() => dispatch(clearAuthError())}
+                      dismissible
+                    >
+                      {error}
+                    </Alert>
                   )}
-                </Button>
-              </Form>
 
-              {/* Sign Up Link */}
-              <div className="text-center border-top pt-4">
-                <p className="text-muted mb-0">
-                  {"Don't"} have an account?{" "}
-                  <Link href="/Account/Signup" className={styles.link}>
-                    Create one
-                  </Link>
-                </p>
-              </div>
-            </Card.Body>
-          </Card>
+                  <Form.Group className="mb-3" controlId="username">
+                    <Form.Label className={styles.label}>Username</Form.Label>
+                    <div className={styles.inputWrap}>
+                      <span className={styles.icon}>
+                        <Mail size={18} />
+                      </span>
+                      <Form.Control
+                        className={styles.input}
+                        type="text"
+                        placeholder="Enter your username"
+                        value={credentials.username}
+                        onChange={(e) =>
+                          setCredentials({
+                            ...credentials,
+                            username: e.target.value,
+                          })
+                        }
+                        disabled={isLoading}
+                        autoComplete="username"
+                        aria-label="username"
+                        required
+                        autoFocus
+                      />
+                    </div>
+                  </Form.Group>
 
-          {/* Demo Credentials */}
-          <Card className={`${styles.demoCard} mt-5 border-0`}>
-            <Card.Body className="p-4">
-              <p className="fw-600 mb-3">Demo Credentials:</p>
-              <div className="row">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <small className="text-muted d-block">Faculty User</small>
-                  <code className="fw-600 text-muted">iron_man / stark123</code>
+                  <Form.Group className="mb-4" controlId="password">
+                    <Form.Label className={styles.label}>Password</Form.Label>
+                    <div className={styles.inputWrap}>
+                      <span className={styles.icon}>
+                        <Lock size={18} />
+                      </span>
+                      <Form.Control
+                        className={styles.input}
+                        type="password"
+                        placeholder="Enter your password"
+                        value={credentials.password}
+                        onChange={(e) =>
+                          setCredentials({
+                            ...credentials,
+                            password: e.target.value,
+                          })
+                        }
+                        disabled={isLoading}
+                        autoComplete="current-password"
+                        aria-label="password"
+                        required
+                      />
+                    </div>
+                  </Form.Group>
+
+                  <Button
+                    type="submit"
+                    className={`${styles.submitBtn} w-100 py-2`}
+                    disabled={isLoading}
+                    aria-live="polite"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          className="me-2"
+                        />
+                        Signing in...
+                      </>
+                    ) : (
+                      <>
+                        Sign In
+                        <ArrowRight size={16} className="ms-2" />
+                      </>
+                    )}
+                  </Button>
+                </Form>
+
+                <div className={styles.footerRow}>
+                  <p className="mb-0">
+                    <span className={styles.muted}>Don't have an account?</span>{" "}
+                    <Link href="/Account/Signup" className={styles.link}>
+                      Create one
+                    </Link>
+                  </p>
                 </div>
-                <div className="col-md-6">
-                  <small className="text-muted d-block">Student User</small>
-                  <code className="fw-600 text-muted">
-                    dark_knight / wayne123
-                  </code>
+              </Card.Body>
+            </Card>
+
+            <Card className={`${styles.demoCard} mt-4 border-0`}>
+              <Card.Body className="p-3">
+                <p className={`${styles.demoTitle} mb-2`}>Demo Credentials</p>
+                <div className="row">
+                  <div className="col-6">
+                    <small className={styles.demoLabel}>Faculty</small>
+                    <div className={styles.demoCred}>iron_man / stark123</div>
+                  </div>
+                  <div className="col-6">
+                    <small className={styles.demoLabel}>Student</small>
+                    <div className={styles.demoCred}>
+                      dark_knight / wayne123
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </Card.Body>
-          </Card>
+              </Card.Body>
+            </Card>
+          </main>
         </div>
       </Container>
     </div>

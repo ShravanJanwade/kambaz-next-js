@@ -89,29 +89,35 @@ export default function SignUp() {
   };
 
   return (
-    <div>
-      <Container className={styles.centerContent}>
-        <div className={styles.centerContent}>
+    <div className={styles.page}>
+      <Container className={styles.container}>
+        <div className={styles.inner}>
           {/* Header Section */}
-          <div className="text-center mb-5">
-            <h1 className="display-5 fw-bold mt-3">Get Started</h1>
-            <p className="text-muted mt-2">
+          <div className={styles.hero}>
+            <h1 className={styles.title}>Get Started</h1>
+            <p className={styles.subtitle}>
               Join our community and start learning today
             </p>
           </div>
 
           {/* Form Card */}
-          <Card className={`${styles.formCard} shadow-lg border-0`}>
-            <Card.Body className="p-5">
+          <Card className={`${styles.formCard} border-0`}>
+            <Card.Body className={styles.cardBody}>
               <Form onSubmit={handleSignUp}>
                 {/* Error Alert */}
-                {error && <Alert variant="danger">{error}</Alert>}
+                {error && (
+                  <Alert variant="danger" className={styles.alert}>
+                    {error}
+                  </Alert>
+                )}
 
                 {/* Name Inputs */}
                 <Row className="mb-4">
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label className="fw-600">First Name</Form.Label>
+                      <Form.Label className={styles.label}>
+                        First Name
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="John"
@@ -129,7 +135,9 @@ export default function SignUp() {
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label className="fw-600">Last Name</Form.Label>
+                      <Form.Label className={styles.label}>
+                        Last Name
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Doe"
@@ -146,9 +154,9 @@ export default function SignUp() {
 
                 {/* Username Input */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">Username</Form.Label>
-                  <div className={styles.inputGroup}>
-                    <User size={18} className={styles.inputIcon} />
+                  <Form.Label className={styles.label}>Username</Form.Label>
+                  <div className={styles.inputWrap}>
+                    <User size={18} className={styles.icon} />
                     <Form.Control
                       type="text"
                       placeholder="Choose a username"
@@ -164,9 +172,9 @@ export default function SignUp() {
 
                 {/* Email Input */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">Email</Form.Label>
-                  <div className={styles.inputGroup}>
-                    <Mail size={18} className={styles.inputIcon} />
+                  <Form.Label className={styles.label}>Email</Form.Label>
+                  <div className={styles.inputWrap}>
+                    <Mail size={18} className={styles.icon} />
                     <Form.Control
                       type="email"
                       placeholder="your@email.com"
@@ -182,9 +190,9 @@ export default function SignUp() {
 
                 {/* Password Input */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">Password</Form.Label>
-                  <div className={styles.inputGroup}>
-                    <Lock size={18} className={styles.inputIcon} />
+                  <Form.Label className={styles.label}>Password</Form.Label>
+                  <div className={styles.inputWrap}>
+                    <Lock size={18} className={styles.icon} />
                     <Form.Control
                       type="password"
                       placeholder="At least 6 characters"
@@ -200,9 +208,11 @@ export default function SignUp() {
 
                 {/* Confirm Password Input */}
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-600">Confirm Password</Form.Label>
-                  <div className={styles.inputGroup}>
-                    <Lock size={18} className={styles.inputIcon} />
+                  <Form.Label className={styles.label}>
+                    Confirm Password
+                  </Form.Label>
+                  <div className={styles.inputWrap}>
+                    <Lock size={18} className={styles.icon} />
                     <Form.Control
                       type="password"
                       placeholder="Confirm your password"
@@ -222,7 +232,7 @@ export default function SignUp() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className={`${styles.submitBtn} w-100 py-3 mb-4`}
+                  className={`${styles.submitBtn} w-100 mb-4`}
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -245,8 +255,8 @@ export default function SignUp() {
               </Form>
 
               {/* Sign In Link */}
-              <div className="text-center border-top pt-4">
-                <p className="text-muted mb-0">
+              <div className={styles.footerRow}>
+                <p className={styles.muted}>
                   Already have an account?{" "}
                   <Link href="/Account/Signin" className={styles.link}>
                     Sign in
