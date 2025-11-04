@@ -12,27 +12,35 @@ import ModuleControlButtons from "./LessonControlButtons";
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";
 import type { RootState } from "../../../store";
 
-type Lesson = {
-  _id: string;
+// Define the data structures clearly
+interface Lesson {
+  id: string;
   name: string;
-  description?: string;
+  description: string;
   module: string;
-};
+}
 
-type ModuleItem = {
+interface Module {
   _id: string;
   name: string;
   description?: string;
   course: string;
-  lessons?: Lesson[];
+  lessons: Lesson[];
   editing?: boolean;
-};
+}
+
+interface ModulesState {
+  modules: Module[];
+}
 
 export default function Modules() {
   const { cid } = useParams<{ cid: string }>();
   const [moduleName, setModuleName] = useState("");
 
-  const { modules } = useSelector((state: RootState) => state.modulesReducer);
+  // strongly typed selector
+  const modules = useSelector(
+    (state: RootState) => state.modulesReducer.modules as Module[]
+  );
   const dispatch = useDispatch();
 
   return (
@@ -51,8 +59,8 @@ export default function Modules() {
       <br />
       <ListGroup className="rounded-0" id="wd-modules">
         {modules
-          .filter((m: ModuleItem) => m.course === cid)
-          .map((module: ModuleItem) => (
+          .filter((m) => m.course === cid)
+          .map((module) => (
             <ListGroupItem
               key={module._id ?? module.name}
               className="wd-module p-0 mb-5 fs-5 border-gray"
@@ -86,11 +94,11 @@ export default function Modules() {
                 />
               </div>
 
-              {module.lessons && (
+              {module.lessons && module.lessons.length > 0 && (
                 <ListGroup className="wd-lessons rounded-0">
-                  {module.lessons.map((lesson) => (
+                  {module.lessons.map((lesson: Lesson) => (
                     <ListGroupItem
-                      key={lesson._id ?? lesson.name}
+                      key={lesson.id ?? lesson.name}
                       className="wd-lesson p-3 ps-1 d-flex justify-content-between align-items-center"
                     >
                       <div>
@@ -103,7 +111,6 @@ export default function Modules() {
             </ListGroupItem>
           ))}
       </ListGroup>
-         
     </div>
   );
 }
