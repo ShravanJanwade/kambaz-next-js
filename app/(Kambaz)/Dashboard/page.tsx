@@ -52,14 +52,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!currentUser) {
-      router.push("/Account/SignIn");
+      router.push("/Account/Signin");
       return;
     }
 
-    // Load all courses from mock database
     dispatch(setCourses(db.courses));
 
-    // Set enrolled courses for current user
     const userEnrollments = db.enrollments
       .filter((e) => e.user === currentUser._id)
       .map((e) => e.course);
@@ -170,7 +168,6 @@ export default function Dashboard() {
             return (
               <Col key={course._id} className="wd-dashboard-course">
                 <Card className="h-100 shadow-sm">
-                  {/* clickable top area */}
                   {isEnrolled || currentUser?.role === "FACULTY" ? (
                     <Link
                       href={`/Courses/${course._id}/Home`}
@@ -239,12 +236,10 @@ export default function Dashboard() {
                     </div>
                   )}
 
-                  {/* footer with action controls */}
                   <div
                     className="d-flex align-items-center justify-content-between p-2"
                     style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}
                   >
-                    {/* Pen / open action (only for enrolled or faculty) */}
                     {(isEnrolled || currentUser?.role === "FACULTY") && (
                       <Link
                         href={`/Courses/${course._id}/Home`}
@@ -266,7 +261,6 @@ export default function Dashboard() {
 
                     {currentUser?.role === "FACULTY" && (
                       <div className="ms-auto d-flex gap-2">
-                        {/* Edit (yellow) */}
                         <Button
                           variant="warning"
                           size="sm"
@@ -282,7 +276,6 @@ export default function Dashboard() {
                           <span className="d-none d-md-inline">Edit</span>
                         </Button>
 
-                        {/* Delete (red) */}
                         <Button
                           variant="danger"
                           size="sm"

@@ -92,7 +92,6 @@ export default function SignUp() {
     <div className={styles.page}>
       <Container className={styles.container}>
         <div className={styles.inner}>
-          {/* Header Section */}
           <div className={styles.hero}>
             <h1 className={styles.title}>Get Started</h1>
             <p className={styles.subtitle}>
@@ -100,7 +99,6 @@ export default function SignUp() {
             </p>
           </div>
 
-          {/* Form Card */}
           <Card className={`${styles.formCard} border-0`}>
             <Card.Body className={styles.cardBody}>
               <Form onSubmit={handleSignUp}>
@@ -152,7 +150,6 @@ export default function SignUp() {
                   </Col>
                 </Row>
 
-                {/* Username Input */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>Username</Form.Label>
                   <div className={styles.inputWrap}>
@@ -170,7 +167,6 @@ export default function SignUp() {
                   </div>
                 </Form.Group>
 
-                {/* Email Input */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>Email</Form.Label>
                   <div className={styles.inputWrap}>
@@ -188,7 +184,6 @@ export default function SignUp() {
                   </div>
                 </Form.Group>
 
-                {/* Password Input */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>Password</Form.Label>
                   <div className={styles.inputWrap}>
@@ -206,7 +201,6 @@ export default function SignUp() {
                   </div>
                 </Form.Group>
 
-                {/* Confirm Password Input */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>
                     Confirm Password
@@ -229,7 +223,6 @@ export default function SignUp() {
                   </div>
                 </Form.Group>
 
-                {/* Submit Button */}
                 <Button
                   type="submit"
                   className={`${styles.submitBtn} w-100 mb-4`}
@@ -254,7 +247,6 @@ export default function SignUp() {
                 </Button>
               </Form>
 
-              {/* Sign In Link */}
               <div className={styles.footerRow}>
                 <p className={styles.muted}>
                   Already have an account?{" "}

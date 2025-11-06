@@ -39,8 +39,6 @@ export default function Modules() {
   const { cid } = useParams<{ cid: string }>();
   const [moduleName, setModuleName] = useState("");
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
-
-  // UI state for adding/editing lessons
   const [addLessonForModule, setAddLessonForModule] = useState<string | null>(
     null
   );
@@ -51,7 +49,6 @@ export default function Modules() {
   } | null>(null);
   const [editingLessonName, setEditingLessonName] = useState("");
 
-  // strongly typed selector
   const modules = useSelector(
     (state: RootState) => state.modulesReducer.modules as Module[]
   );
@@ -74,7 +71,6 @@ export default function Modules() {
     };
 
     dispatch(updateModule(updatedModule));
-    // reset UI
     setNewLessonName("");
     setAddLessonForModule(null);
   };
@@ -139,7 +135,6 @@ export default function Modules() {
                   )}
 
                   {module.editing && (
-                    // Larger, nicer edit input
                     <FormControl
                       aria-label="Edit module name"
                       style={{
@@ -161,8 +156,6 @@ export default function Modules() {
                     />
                   )}
                 </div>
-
-                {/* Parent row — place inside your module list render */}
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   {currentUser?.role === "FACULTY" && (
                     <ModuleControlButtons
@@ -182,7 +175,6 @@ export default function Modules() {
                 </div>
               </div>
 
-              {/* Inline Add Lesson UI */}
               {addLessonForModule === module._id && (
                 <div className="p-3 bg-light border-bottom">
                   <div className="d-flex gap-2 align-items-center">
@@ -218,7 +210,6 @@ export default function Modules() {
                 </div>
               )}
 
-              {/* Lessons list */}
               {module.lessons && module.lessons.length > 0 && (
                 <ListGroup className="wd-lessons rounded-0">
                   {module.lessons.map((lesson) => (
@@ -228,7 +219,6 @@ export default function Modules() {
                     >
                       <div className="d-flex align-items-center gap-2">
                         <BsGripVertical className="me-2 fs-3" />
-                        {/* Inline editing for lesson name */}
                         {editingLesson &&
                         editingLesson.moduleId === module._id &&
                         editingLesson.lessonId === lesson.id ? (
@@ -266,7 +256,6 @@ export default function Modules() {
                         )}
                       </div>
 
-                      {/* three-dot dropdown for lesson actions */}
                       {currentUser?.role === "FACULTY" && (
                         <div>
                           <Dropdown align="end">

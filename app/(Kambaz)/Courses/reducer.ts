@@ -12,7 +12,7 @@ export interface Course {
 
 interface CoursesState {
   courses: Course[];
-  enrolledCourses: string[]; // Array of course IDs the current user is enrolled in
+  enrolledCourses: string[];
 }
 
 const initialState: CoursesState = {

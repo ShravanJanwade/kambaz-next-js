@@ -4,7 +4,6 @@ export default function EventObject() {
   const [event, setEvent] = useState<Record<string, unknown> | null>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Extract only serializable properties
     const eventSnapshot = {
       type: e.type,
       timeStamp: e.timeStamp,

@@ -102,15 +102,12 @@ export default function Profile() {
         </Link>
 
         <div className={styles.inner}>
-          {/* Header */}
           <div className={styles.hero}>
             <h1 className={styles.title}>My Profile</h1>
             <p className={styles.subtitle}>Manage your account information</p>
           </div>
 
-          {/* Main Card */}
           <Card className={`${styles.profileCard} border-0`}>
-            {/* Avatar Section */}
             <Card.Body className={`${styles.avatarSection} border-bottom`}>
               <Row className="align-items-center">
                 <Col md="auto" className="text-center text-md-start">
@@ -128,10 +125,8 @@ export default function Profile() {
               </Row>
             </Card.Body>
 
-            {/* Form Section */}
             <Card.Body className={styles.formBody}>
               <Form>
-                {/* Name Fields */}
                 <Row className="mb-4">
                   <Col md={6}>
                     <Form.Group>
@@ -171,7 +166,6 @@ export default function Profile() {
                   </Col>
                 </Row>
 
-                {/* Username Field (Read-only) */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>
                     <UserIcon size={16} className="me-2" />
@@ -185,7 +179,6 @@ export default function Profile() {
                   />
                 </Form.Group>
 
-                {/* Email Field */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>
                     <Mail size={16} className="me-2" />
@@ -202,7 +195,6 @@ export default function Profile() {
                   />
                 </Form.Group>
 
-                {/* Date of Birth */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>
                     <Calendar size={16} className="me-2" />
@@ -219,7 +211,6 @@ export default function Profile() {
                   />
                 </Form.Group>
 
-                {/* Role Field (Read-only) */}
                 <Form.Group className="mb-4">
                   <Form.Label className={styles.label}>
                     <BookOpen size={16} className="me-2" />
@@ -238,7 +229,6 @@ export default function Profile() {
                   </Form.Control>
                 </Form.Group>
 
-                {/* Additional Info */}
                 <Row className="mb-4 pt-4 border-top">
                   <Col md={6}>
                     <p className={styles.infoLabel}>Login ID</p>
@@ -251,7 +241,6 @@ export default function Profile() {
                 </Row>
               </Form>
 
-              {/* Action Buttons */}
               <div className={`${styles.actionButtons} mt-5 pt-4 border-top`}>
                 {!isEditing ? (
                   <>

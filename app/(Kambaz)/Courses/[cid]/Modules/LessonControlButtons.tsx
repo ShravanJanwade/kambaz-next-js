@@ -6,7 +6,7 @@ import GreenCheckmark from "./GreenCheckMark";
 
 type Props = {
   moduleId: string;
-  isAddOpen?: boolean; // whether add-lesson UI is open for this module
+  isAddOpen?: boolean;
   onToggleAdd: () => void;
   deleteModule: (moduleId: string) => void;
   editModule: (moduleId: string) => void;
@@ -28,7 +28,6 @@ export default function LessonRowControls({
     background: "transparent",
     boxShadow: "0 6px 18px rgba(15,23,42,0.06)",
     border: "1px solid rgba(16,24,40,0.06)",
-    // subtle glass effect if browser supports it
     backdropFilter: "blur(6px)",
     WebkitBackdropFilter: "blur(6px)",
   };
@@ -85,7 +84,6 @@ export default function LessonRowControls({
 
   return (
     <div style={container} role="group" aria-label="Module lesson controls">
-      {/* Add lesson toggle */}
       <button
         aria-pressed={isAddOpen}
         aria-label={isAddOpen ? "Close add lesson" : "Add lesson"}
@@ -124,7 +122,6 @@ export default function LessonRowControls({
           <FaTrash size={16} />
         </button>
 
-        {/* Optional status / confirmation icon */}
         <div style={{ display: "flex", alignItems: "center", marginLeft: 4 }}>
           <GreenCheckmark />
         </div>

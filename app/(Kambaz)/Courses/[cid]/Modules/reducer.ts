@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { modules as seedModules } from "../../../Database";
 import { v4 as uuidv4 } from "uuid";
 
-// Define the data structures clearly
 interface Lesson {
   id: string;
   name: string;

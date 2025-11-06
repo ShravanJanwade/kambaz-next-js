@@ -25,7 +25,6 @@ export default function ModulesControls({
     <div
       id="wd-modules-controls"
       className="text-nowrap d-flex justify-content-end flex-nowrap"
-      // allow overflow so dropdown menus are visible
       style={{ overflow: "visible" }}
     >
       <Button
