@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch } from "@/app/(Kambaz)/hooks";
 import { addAssignment, updateAssignment } from "../reducer";
+import * as client from "../client";
 export default function AssignmentEditor() {
   const { aid, cid } = useParams();
   const router = useRouter();
@@ -65,7 +66,6 @@ export default function AssignmentEditor() {
   ) => {
     const { id, value, type } = e.target as HTMLInputElement;
 
-    // Map field IDs to formData keys
     const fieldMap: { [key: string]: string } = {
       "wd-name": "title",
       "wd-description": "description",
@@ -99,39 +99,47 @@ export default function AssignmentEditor() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.title.trim()) {
       alert("Assignment name is required");
       return;
     }
 
-    if (isNewAssignment) {
-      const newAssignment = {
-        _id: uuidv4(),
-        title: formData.title,
-        description: formData.description,
-        course: cid as string,
-        available: formData.available,
-        due: formData.due,
-        until: formData.until,
-        points: formData.points,
-      };
-      dispatch(addAssignment(newAssignment));
-    } else {
-      const updatedAssignment = {
-        _id: assignment!._id,
-        title: formData.title,
-        description: formData.description,
-        course: assignment!.course,
-        available: formData.available,
-        due: formData.due,
-        until: formData.until,
-        points: formData.points,
-      };
-      dispatch(updateAssignment(updatedAssignment));
-    }
+    try {
+      if (isNewAssignment) {
+        const newAssignmentPayload = {
+          title: formData.title,
+          description: formData.description,
+          available: formData.available,
+          due: formData.due,
+          until: formData.until,
+          points: formData.points,
+        };
+        const created = await client.createAssignmentForCourse(
+          cid as string,
+          newAssignmentPayload
+        );
+        dispatch(addAssignment(created));
+      } else {
+        const updatedAssignmentPayload = {
+          _id: assignment!._id,
+          title: formData.title,
+          description: formData.description,
+          course: assignment!.course,
+          available: formData.available,
+          due: formData.due,
+          until: formData.until,
+          points: formData.points,
+        };
+        const updated = await client.updateAssignment(updatedAssignmentPayload);
+        dispatch(updateAssignment(updated));
+      }
 
-    router.push(`/Courses/${cid}/Assignments`);
+      router.push(`/Courses/${cid}/Assignments`);
+    } catch (err) {
+      console.error("Failed to save assignment:", err);
+      alert("Failed to save assignment. See console for details.");
+    }
   };
 
   const handleCancel = () => {

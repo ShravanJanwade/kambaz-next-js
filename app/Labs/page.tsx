@@ -36,6 +36,11 @@ export default function Lab1() {
               Lab 4: Maintaining State in React Applications
             </Link>
           </li>
+          <li>
+            <Link href="/Labs/Lab5" id="wd-lab3-link">
+              Lab 5: Node js
+            </Link>
+          </li>
         </ul>
       </section>
       <section style={{ marginBottom: "20px" }}>

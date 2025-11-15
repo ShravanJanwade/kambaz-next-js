@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ListGroup,
   ListGroupItem,
@@ -16,8 +16,15 @@ import { v4 as uuidv4 } from "uuid";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./LessonControlButtons";
 
-import { addModule, editModule, updateModule, deleteModule } from "./reducer";
+import {
+  addModule as addModuleAction,
+  editModule,
+  updateModule as updateModuleAction,
+  deleteModule as deleteModuleAction,
+  setModules,
+} from "./reducer";
 import type { RootState } from "../../../store";
+import * as client from "../../client";
 
 interface Lesson {
   id: string;
@@ -54,7 +61,56 @@ export default function Modules() {
   );
   const dispatch = useDispatch();
 
-  const handleAddLesson = (moduleObj: Module) => {
+  const refreshModules = async () => {
+    if (!cid) return;
+    try {
+      const serverModules = await client.findModulesForCourse(String(cid));
+      dispatch(setModules(Array.isArray(serverModules) ? serverModules : []));
+    } catch (err) {
+      console.error("Failed to fetch modules for course:", err);
+    }
+  };
+
+  useEffect(() => {
+    refreshModules();
+  }, [cid]);
+
+  const handleAddModule = async () => {
+    if (!moduleName.trim() || !cid) return;
+    try {
+      await client.createModuleForCourse(String(cid), {
+        name: moduleName.trim(),
+        course: cid,
+        description: "",
+        lessons: [],
+      });
+      setModuleName("");
+      await refreshModules();
+    } catch (err) {
+      console.error("Failed to create module:", err);
+    }
+  };
+
+  const handleDeleteModule = async (moduleId: string) => {
+    try {
+      await client.deleteModule(moduleId);
+      await refreshModules();
+    } catch (err) {
+      console.error("Failed to delete module:", err);
+    }
+  };
+
+  const saveModuleToServer = async (updatedModule: Module) => {
+    dispatch(updateModuleAction(updatedModule));
+    try {
+      await client.updateModule(updatedModule);
+      await refreshModules();
+    } catch (err) {
+      console.error("Failed to save module:", err);
+    }
+  };
+
+  const handleAddLesson = async (moduleObj: Module) => {
     const name = newLessonName.trim();
     if (!name) return;
 
@@ -70,17 +126,31 @@ export default function Modules() {
       lessons: [...(moduleObj.lessons || []), newLesson],
     };
 
-    dispatch(updateModule(updatedModule));
+    dispatch(updateModuleAction(updatedModule));
     setNewLessonName("");
     setAddLessonForModule(null);
+
+    try {
+      await client.updateModule(updatedModule);
+      await refreshModules();
+    } catch (err) {
+      console.error("Failed to add lesson:", err);
+    }
   };
 
-  const handleDeleteLesson = (moduleObj: Module, lessonId: string) => {
+  const handleDeleteLesson = async (moduleObj: Module, lessonId: string) => {
     const updatedModule: Module = {
       ...moduleObj,
       lessons: (moduleObj.lessons || []).filter((l) => l.id !== lessonId),
     };
-    dispatch(updateModule(updatedModule));
+
+    dispatch(updateModuleAction(updatedModule));
+    try {
+      await client.updateModule(updatedModule);
+      await refreshModules();
+    } catch (err) {
+      console.error("Failed to delete lesson:", err);
+    }
   };
 
   const handleStartEditLesson = (moduleObj: Module, lessonId: string) => {
@@ -90,7 +160,7 @@ export default function Modules() {
     setEditingLessonName(lesson.name);
   };
 
-  const handleSaveEditLesson = (moduleObj: Module, lessonId: string) => {
+  const handleSaveEditLesson = async (moduleObj: Module, lessonId: string) => {
     const name = editingLessonName.trim();
     if (!name) return;
 
@@ -101,9 +171,25 @@ export default function Modules() {
       ),
     };
 
-    dispatch(updateModule(updatedModule));
+    dispatch(updateModuleAction(updatedModule));
     setEditingLesson(null);
     setEditingLessonName("");
+
+    try {
+      await client.updateModule(updatedModule);
+      await refreshModules();
+    } catch (err) {
+      console.error("Failed to save edited lesson:", err);
+    }
+  };
+
+  const handleFinishEditModule = async (moduleObj: Module, newName: string) => {
+    const updatedModule: Module = {
+      ...moduleObj,
+      name: newName,
+      editing: false,
+    };
+    await saveModuleToServer(updatedModule);
   };
 
   return (
@@ -111,11 +197,7 @@ export default function Modules() {
       <ModulesControls
         moduleName={moduleName}
         setModuleName={setModuleName}
-        addModule={() => {
-          if (!moduleName.trim() || !cid) return;
-          dispatch(addModule({ name: moduleName.trim(), course: String(cid) }));
-          setModuleName("");
-        }}
+        addModule={handleAddModule}
       />
       <br />
       <br />
@@ -145,12 +227,18 @@ export default function Modules() {
                       defaultValue={module.name}
                       onChange={(e) =>
                         dispatch(
-                          updateModule({ ...module, name: e.target.value })
+                          updateModuleAction({
+                            ...module,
+                            name: e.target.value,
+                          })
                         )
                       }
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          dispatch(updateModule({ ...module, editing: false }));
+                          handleFinishEditModule(
+                            module,
+                            (e.target as HTMLInputElement).value
+                          );
                         }
                       }}
                     />
@@ -166,9 +254,7 @@ export default function Modules() {
                           prev === module._id ? null : module._id
                         )
                       }
-                      deleteModule={(moduleId) =>
-                        dispatch(deleteModule(moduleId))
-                      }
+                      deleteModule={(moduleId) => handleDeleteModule(moduleId)}
                       editModule={(moduleId) => dispatch(editModule(moduleId))}
                     />
                   )}

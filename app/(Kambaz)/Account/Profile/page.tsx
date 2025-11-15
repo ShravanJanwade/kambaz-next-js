@@ -27,7 +27,8 @@ import {
 import styles from "./profile.module.css";
 import type { RootState } from "../../store";
 import type { User as UserType } from "../reducer";
-import { logout, updateUserProfile } from "../reducer";
+import { logout, setCurrentUser, updateUserProfile } from "../reducer";
+import * as client from "../client";
 
 export default function Profile() {
   const { currentUser } = useSelector((state: RootState) => state.auth);
@@ -74,16 +75,27 @@ export default function Profile() {
     );
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (isSaving) return;
+    if (!formData.email || !formData.email.includes("@")) {
+      console.warn("Invalid email");
+      return;
+    }
     setIsSaving(true);
-
-    dispatch(updateUserProfile(formData as Partial<UserType>));
-    setIsEditing(false);
-    setIsSaving(false);
+    try {
+      const updatedProfile = await client.updateUser(formData);
+      dispatch(setCurrentUser(updatedProfile));
+      setIsEditing(false);
+    } catch (err: any) {
+      console.error("Failed to save profile:", err);
+      alert("Failed to save profile. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await client.signout();
     dispatch(logout());
     router.push("/Account/Signin");
   };

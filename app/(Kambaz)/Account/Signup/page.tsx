@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./signup.module.css";
 import { users } from "../../Database";
 import { setCurrentUser } from "../reducer";
+import * as client from "../client";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -81,9 +82,8 @@ export default function SignUp() {
       lastActivity: new Date().toISOString(),
       totalActivity: "0:00:00",
     };
-
-    users.push(newUser);
-    dispatch(setCurrentUser(newUser));
+    const currentUser = await client.signup(newUser);
+    dispatch(setCurrentUser(currentUser));
     router.push("/Dashboard");
     setIsLoading(false);
   };

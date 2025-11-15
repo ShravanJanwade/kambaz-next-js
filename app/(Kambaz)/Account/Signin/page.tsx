@@ -1,5 +1,4 @@
 "use client";
-
 import type React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,7 @@ import { Mail, Lock, ArrowRight } from "lucide-react";
 import styles from "./signin.module.css";
 import type { RootState } from "../../store";
 import { clearAuthError, setAuthError, setCurrentUser } from "../reducer";
-import { users } from "../../Database";
+import * as client from "../client";
 
 export default function SignIn() {
   const [credentials, setCredentials] = useState({
@@ -24,24 +23,31 @@ export default function SignIn() {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    dispatch(clearAuthError());
-
-    const user = users.find(
-      (u) =>
-        u.username === credentials.username &&
-        u.password === credentials.password
-    );
-
-    if (!user) {
-      dispatch(setAuthError("Invalid username or password"));
-      setIsLoading(false);
+    if (!credentials.username || !credentials.password) {
+      dispatch(setAuthError("Please enter both username and password"));
       return;
     }
+    setIsLoading(true);
+    dispatch(clearAuthError());
+    try {
+      const user = await client.signin(credentials);
 
-    dispatch(setCurrentUser(user));
-    router.push("/Dashboard");
-    setIsLoading(false);
+      if (!user) {
+        dispatch(setAuthError("Invalid username or password"));
+        return;
+      }
+      dispatch(setCurrentUser(user));
+      router.push("/Dashboard");
+    } catch (err: any) {
+      console.error("Signin failed:", err);
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Unable to sign in. Please try again later.";
+      dispatch(setAuthError(msg));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

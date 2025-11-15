@@ -8,7 +8,7 @@ const BooleanVariables = () => {
   const false2 = true1 && false1;
   const true2 = true1 || false1;
   const true3 = !false2;
-  const true4 = numberVariable === 123; // always use === not ==
+  const true4 = numberVariable === 123;
   const true5 = floatingPointNumber !== 321.432;
   const false3 = numberVariable < 100;
   return (

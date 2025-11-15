@@ -9,9 +9,10 @@ import GreenCheckmark from "../Modules/GreenCheckMark";
 import { useParams, useRouter } from "next/navigation";
 import { useAppDispatch } from "@/app/(Kambaz)/hooks";
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import { deleteAssignment } from "./reducer";
+import { useEffect, useState } from "react";
+import { deleteAssignment, setAssignments } from "./reducer";
 import { RootState } from "@/app/(Kambaz)/store";
+import * as client from "./client";
 
 function AssignmentControl({
   assignmentId,
@@ -35,10 +36,14 @@ function AssignmentControl({
     setShowDropdown(false);
     setShowDeleteConfirm(true);
   };
-
-  const confirmDelete = () => {
-    dispatch(deleteAssignment(assignmentId));
+  const confirmDelete = async () => {
     setShowDeleteConfirm(false);
+    try {
+      await client.deleteAssignment(assignmentId);
+      dispatch(deleteAssignment(assignmentId));
+    } catch (err) {
+      console.error("Failed to delete assignment:", err);
+    }
   };
 
   return (
@@ -118,7 +123,6 @@ export default function Assignments() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [groupFilter, setGroupFilter] = useState("ASSIGNMENTS");
-
   const filteredAssignments = assignments
     .filter((assignment) => assignment.course == cid)
     .filter((assignment) => {
@@ -128,6 +132,34 @@ export default function Assignments() {
       const matchesGroup = groupFilter === "ALL" || assignment.course === cid;
       return matchesSearch && matchesGroup;
     });
+  const refresh = async () => {
+    if (!cid) return;
+    try {
+      const serverAssignments = await client.findAssignmentsForCourse(
+        String(cid)
+      );
+      dispatch(
+        setAssignments(
+          Array.isArray(serverAssignments) ? serverAssignments : []
+        )
+      );
+    } catch (err) {
+      console.error("Failed to fetch assignments:", err);
+    }
+  };
+
+  useEffect(() => {
+    refresh();
+  }, [cid]);
+
+  const handleDeleteConfirm = async (assignmentId: string) => {
+    try {
+      await client.deleteAssignment(assignmentId);
+      await refresh();
+    } catch (err) {
+      console.error("Failed to delete assignment:", err);
+    }
+  };
 
   return (
     <div id="wd-assignments" style={{ padding: "15px" }}>

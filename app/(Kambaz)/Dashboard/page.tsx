@@ -3,15 +3,16 @@ import Link from "next/link";
 import type React from "react";
 import { Row, Col, Card, FormControl, Button } from "react-bootstrap";
 import { LuNotebookPen } from "react-icons/lu";
-import * as db from "../Database";
+import * as client from "../Courses/client";
+
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store";
 import {
   addCourse,
-  deleteCourse,
-  updateCourse,
+  deleteCourse as deleteCourseAction,
+  updateCourse as updateCourseAction,
   setCourses,
   setEnrolledCourses,
   enrollCourse,
@@ -20,6 +21,7 @@ import {
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+
 export interface Course {
   _id: string;
   name: string;
@@ -50,18 +52,32 @@ export default function Dashboard() {
     description: "New Description",
   });
 
+  const refreshServerData = async () => {
+    try {
+      const allCourses = await client.fetchAllCourses();
+      dispatch(setCourses(allCourses ?? []));
+
+      try {
+        const myCourses = await client.findMyCourses();
+        const myCourseIds = Array.isArray(myCourses)
+          ? myCourses.map((c: Course) => c._id)
+          : [];
+        dispatch(setEnrolledCourses(myCourseIds));
+      } catch (err) {
+        console.error("Failed to fetch enrolled courses:", err);
+      }
+    } catch (err) {
+      console.error("Failed to fetch courses from server:", err);
+    }
+  };
+
   useEffect(() => {
     if (!currentUser) {
       router.push("/Account/Signin");
       return;
     }
 
-    dispatch(setCourses(db.courses));
-
-    const userEnrollments = db.enrollments
-      .filter((e) => e.user === currentUser._id)
-      .map((e) => e.course);
-    dispatch(setEnrolledCourses(userEnrollments));
+    refreshServerData();
   }, [currentUser, dispatch, router]);
 
   const displayedCourses =
@@ -71,35 +87,63 @@ export default function Dashboard() {
       ? courses
       : courses.filter((c) => enrolledCourses.includes(c._id));
 
-  const handleAddCourse = () => {
-    const newCourse = {
-      ...course,
-      _id: uuidv4(),
-    };
-    dispatch(addCourse(newCourse));
-    setCourse({
-      _id: uuidv4(),
-      name: "New Course",
-      number: "New Number",
-      startDate: "2023-09-10",
-      endDate: "2023-12-15",
-      image: "/images/reactjs.jpg",
-      description: "New Description",
-    });
+  const handleAddCourse = async () => {
+    try {
+      const newCoursePayload = {
+        ...course,
+      };
+      const created = await client.createCourse(newCoursePayload);
+      await refreshServerData();
+
+      setCourse({
+        _id: uuidv4(),
+        name: "New Course",
+        number: "New Number",
+        startDate: "2023-09-10",
+        endDate: "2023-12-15",
+        image: "/images/reactjs.jpg",
+        description: "New Description",
+      });
+    } catch (err) {
+      console.error("Failed to create course:", err);
+    }
   };
 
-  const handleUpdateCourse = () => {
-    dispatch(updateCourse(course));
+  const handleUpdateCourse = async () => {
+    try {
+      await client.updateCourse(course);
+      await refreshServerData();
+    } catch (err) {
+      console.error("Failed to update course:", err);
+    }
   };
 
-  const handleEnroll = (courseId: string) => {
-    dispatch(enrollCourse(courseId));
+  const handleDeleteCourse = async (courseId: string) => {
+    try {
+      await client.deleteCourse(courseId);
+      await refreshServerData();
+    } catch (err) {
+      console.error("Failed to delete course:", err);
+    }
   };
 
-  const handleUnenroll = (courseId: string) => {
-    dispatch(unenrollCourse(courseId));
+  const handleEnroll = async (courseId: string) => {
+    try {
+      await client.enrollCourseOnServer(courseId);
+      await refreshServerData();
+    } catch (err: any) {
+      console.error("Failed to enroll:", err);
+    }
   };
 
+  const handleUnenroll = async (courseId: string) => {
+    try {
+      await client.unenrollCourseOnServer(courseId);
+      await refreshServerData();
+    } catch (err: any) {
+      console.error("Failed to unenroll:", err);
+    }
+  };
   return (
     <div id="wd-dashboard" style={{ padding: "20px 40px" }}>
       <h1 id="wd-dashboard-title" className="mt-5 mt-md-0">
@@ -280,9 +324,9 @@ export default function Dashboard() {
                           variant="danger"
                           size="sm"
                           aria-label={`Delete ${course.number}`}
-                          onClick={(e: React.MouseEvent) => {
+                          onClick={async (e: React.MouseEvent) => {
                             e.preventDefault();
-                            dispatch(deleteCourse(course._id));
+                            await handleDeleteCourse(course._id);
                           }}
                           className="d-inline-flex align-items-center gap-1"
                         >
