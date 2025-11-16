@@ -1,8 +1,17 @@
 "use client";
 import { useState } from "react";
-import { FormControl } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  InputGroup,
+} from "react-bootstrap";
 
 const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER;
+
 export default function WorkingWithArrays() {
   const API = `${HTTP_SERVER}/lab5/todos`;
   const [todo, setTodo] = useState({
@@ -15,128 +24,189 @@ export default function WorkingWithArrays() {
   const enc = (s: string) => encodeURIComponent(s);
 
   return (
-    <div id="wd-working-with-arrays">
-      <h3>Working with Arrays</h3>
-      <h4>Retrieving Arrays</h4>
-      <a id="wd-retrieve-todos" className="btn btn-primary" href={API}>
-        Get Todos{" "}
-      </a>
-      <hr />
-      <h4>Retrieving an Item from an Array by ID</h4>
-      <a
-        id="wd-retrieve-todo-by-id"
-        className="btn btn-primary float-end"
-        href={`${API}/${todo.id}`}
-      >
-        Get Todo by ID
-      </a>
-      <FormControl
-        id="wd-todo-id"
-        defaultValue={todo.id}
-        className="w-50"
-        onChange={(e) => setTodo({ ...todo, id: e.target.value })}
-      />
-      <hr />
-      <h3>Filtering Array Items</h3>
-      <a
-        id="wd-retrieve-completed-todos"
-        className="btn btn-primary"
-        href={`${API}?completed=true`}
-      >
-        Get Completed Todos
-      </a>
-      <hr />
-      <h3>Creating new Items in an Array</h3>
-      <a
-        id="wd-retrieve-completed-todos"
-        className="btn btn-primary"
-        href={`${API}/create`}
-      >
-        Create Todo
-      </a>
-      <hr />
-      <h3>Removing from an Array</h3>
-      <a
-        id="wd-remove-todo"
-        className="btn btn-primary float-end"
-        href={`${API}/${todo.id}/delete`}
-      >
-        Remove Todo with ID = {todo.id}{" "}
-      </a>
-      <FormControl
-        defaultValue={todo.id}
-        className="w-50"
-        onChange={(e) => setTodo({ ...todo, id: e.target.value })}
-      />
-      <hr />
-      <h3>Updating an Item in an Array</h3>
-      <a
-        href={`${API}/${todo.id}/title/${todo.title}`}
-        className="btn btn-primary float-end"
-      >
-        Update Todo
-      </a>
-      <FormControl
-        defaultValue={todo.id}
-        className="w-25 float-start me-2"
-        onChange={(e) => setTodo({ ...todo, id: e.target.value })}
-      />
-      <FormControl
-        defaultValue={todo.title}
-        className="w-50 float-start"
-        onChange={(e) => setTodo({ ...todo, title: e.target.value })}
-      />
-      <br />
-      <br />
-      <hr />
-      <h4>Edit Description & Completed</h4>
+    <Container className="py-4" id="wd-working-with-arrays">
+      <h2 className="mb-4">Working with Arrays</h2>
 
-      <label htmlFor="wd-todo-description" className="form-label">
-        Description
-      </label>
-      <FormControl
-        id="wd-todo-description"
-        value={todo.description}
-        className="w-75 mb-2"
-        onChange={(e) => setTodo({ ...todo, description: e.target.value })}
-      />
+      <Row>
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm">
+            <Card.Header className="bg-primary text-white">
+              <h5 className="mb-0">Retrieving Data</h5>
+            </Card.Header>
+            <Card.Body>
+              <h6 className="text-primary mb-3">Get All Todos</h6>
+              <Button
+                id="wd-retrieve-todos"
+                variant="primary"
+                href={API}
+                className="w-100 mb-4"
+              >
+                Get Todos
+              </Button>
 
-      <a
-        id="wd-update-todo-description"
-        className="btn btn-primary mb-3"
-        href={`${API}/${todo.id}/description/${enc(todo.description)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Description
-      </a>
+              <h6 className="text-primary mb-3">Get Todo by ID</h6>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  id="wd-todo-id"
+                  value={todo.id}
+                  placeholder="Enter Todo ID"
+                  onChange={(e) => setTodo({ ...todo, id: e.target.value })}
+                />
+                <Button
+                  id="wd-retrieve-todo-by-id"
+                  variant="primary"
+                  href={`${API}/${todo.id}`}
+                >
+                  Get Todo
+                </Button>
+              </InputGroup>
 
-      <br />
+              <h6 className="text-primary mb-3">Filter Todos</h6>
+              <Button
+                id="wd-retrieve-completed-todos"
+                variant="outline-primary"
+                href={`${API}?completed=true`}
+                className="w-100"
+              >
+                Get Completed Todos
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
 
-      <label htmlFor="wd-todo-completed" className="form-check-label me-2">
-        Completed
-      </label>
-      <input
-        id="wd-todo-completed"
-        className="form-check-input me-2"
-        type="checkbox"
-        checked={todo.completed}
-        onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
-      />
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm">
+            <Card.Header className="bg-success text-white">
+              <h5 className="mb-0">Modifying Data</h5>
+            </Card.Header>
+            <Card.Body>
+              <h6 className="text-success mb-3">Create New Todo</h6>
+              <Button
+                id="wd-create-todo"
+                variant="success"
+                href={`${API}/create`}
+                className="w-100 mb-4"
+              >
+                Create Todo
+              </Button>
 
-      <a
-        id="wd-update-todo-completed"
-        className="btn btn-primary"
-        href={`${API}/${todo.id}/completed/${
-          todo.completed ? "true" : "false"
-        }`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Completed
-      </a>
+              <h6 className="text-success mb-3">Delete Todo by ID</h6>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  value={todo.id}
+                  placeholder="Enter Todo ID"
+                  onChange={(e) => setTodo({ ...todo, id: e.target.value })}
+                />
+                <Button
+                  id="wd-remove-todo"
+                  variant="danger"
+                  href={`${API}/${todo.id}/delete`}
+                >
+                  Delete
+                </Button>
+              </InputGroup>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
-      <hr />
-    </div>
+      <Row>
+        <Col>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-info text-white">
+              <h5 className="mb-0">Update Todo</h5>
+            </Card.Header>
+            <Card.Body>
+              <Row>
+                <Col md={6} className="mb-3">
+                  <Form.Group>
+                    <Form.Label>Todo ID</Form.Label>
+                    <Form.Control
+                      value={todo.id}
+                      onChange={(e) => setTodo({ ...todo, id: e.target.value })}
+                      placeholder="Enter Todo ID"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Form.Group>
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      value={todo.title}
+                      onChange={(e) =>
+                        setTodo({ ...todo, title: e.target.value })
+                      }
+                      placeholder="Enter title"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Button
+                variant="info"
+                href={`${API}/${todo.id}/title/${todo.title}`}
+                className="mb-4 w-100"
+              >
+                Update Title
+              </Button>
+
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="wd-todo-description">
+                  Description
+                </Form.Label>
+                <Form.Control
+                  id="wd-todo-description"
+                  value={todo.description}
+                  onChange={(e) =>
+                    setTodo({ ...todo, description: e.target.value })
+                  }
+                  as="textarea"
+                  rows={2}
+                  placeholder="Enter description"
+                />
+                <Button
+                  id="wd-update-todo-description"
+                  variant="info"
+                  size="sm"
+                  className="mt-2"
+                  href={`${API}/${todo.id}/description/${enc(
+                    todo.description
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Description
+                </Button>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Check
+                  id="wd-todo-completed"
+                  type="checkbox"
+                  label="Completed"
+                  checked={todo.completed}
+                  onChange={(e) =>
+                    setTodo({ ...todo, completed: e.target.checked })
+                  }
+                />
+                <Button
+                  id="wd-update-todo-completed"
+                  variant="info"
+                  size="sm"
+                  className="mt-2"
+                  href={`${API}/${todo.id}/completed/${
+                    todo.completed ? "true" : "false"
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Completed
+                </Button>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }

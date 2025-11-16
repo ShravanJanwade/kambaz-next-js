@@ -1,6 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { FormControl } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  ButtonGroup,
+} from "react-bootstrap";
 
 const HTTP_SERVER =
   process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
@@ -35,173 +43,200 @@ export default function WorkingWithObjects() {
   const enc = (s: string) => encodeURIComponent(s);
 
   return (
-    <div id="wd-working-with-objects">
-      <h3>Working With Objects</h3>
+    <Container className="py-4" id="wd-working-with-objects">
+      <h2 className="mb-4">Working With Objects</h2>
 
-      <h4>Assignment — Retrieving</h4>
-      <a
-        id="wd-retrieve-assignments"
-        className="btn btn-primary me-2"
-        href={`${ASSIGNMENT_API_URL}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get Assignment
-      </a>
+      <Row>
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm h-100">
+            <Card.Header className="bg-primary text-white">
+              <h4 className="mb-0">Assignment</h4>
+            </Card.Header>
+            <Card.Body>
+              {/* Retrieving Section */}
+              <h5 className="text-primary mb-3">Retrieving</h5>
+              <ButtonGroup className="mb-4 w-100">
+                <Button
+                  id="wd-retrieve-assignments"
+                  variant="outline-primary"
+                  href={`${ASSIGNMENT_API_URL}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Assignment
+                </Button>
+                <Button
+                  id="wd-retrieve-assignment-title"
+                  variant="outline-primary"
+                  href={`${ASSIGNMENT_API_URL}/title`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Title
+                </Button>
+              </ButtonGroup>
 
-      <a
-        id="wd-retrieve-assignment-title"
-        className="btn btn-primary"
-        href={`${ASSIGNMENT_API_URL}/title`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get Title
-      </a>
+              <hr />
 
-      <hr />
+              {/* Modifying Section */}
+              <h5 className="text-primary mb-3">Modifying</h5>
 
-      <h4>Assignment — Modifying</h4>
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="wd-assignment-title">Title</Form.Label>
+                <Form.Control
+                  id="wd-assignment-title"
+                  value={assignment.title}
+                  onChange={(e) =>
+                    setAssignment({ ...assignment, title: e.target.value })
+                  }
+                />
+                <Button
+                  id="wd-update-assignment-title"
+                  variant="primary"
+                  size="sm"
+                  className="mt-2"
+                  href={`${ASSIGNMENT_API_URL}/title/${enc(assignment.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Title
+                </Button>
+              </Form.Group>
 
-      <label htmlFor="wd-assignment-title" className="form-label">
-        Title
-      </label>
-      <FormControl
-        className="w-75 mb-2"
-        id="wd-assignment-title"
-        value={assignment.title}
-        onChange={(e) =>
-          setAssignment({ ...assignment, title: e.target.value })
-        }
-      />
-      <a
-        id="wd-update-assignment-title"
-        className="btn btn-primary mb-3"
-        href={`${ASSIGNMENT_API_URL}/title/${enc(assignment.title)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Title
-      </a>
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="wd-assignment-score">Score</Form.Label>
+                <Form.Control
+                  id="wd-assignment-score"
+                  type="number"
+                  value={newScore}
+                  onChange={(e) => setNewScore(e.target.value)}
+                  style={{ maxWidth: "150px" }}
+                />
+                <Button
+                  id="wd-update-assignment-score"
+                  variant="primary"
+                  size="sm"
+                  className="mt-2"
+                  href={`${ASSIGNMENT_API_URL}/score/${enc(newScore)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Score
+                </Button>
+              </Form.Group>
 
-      <br />
+              <Form.Group className="mb-3">
+                <Form.Check
+                  id="wd-assignment-completed"
+                  type="checkbox"
+                  label="Completed"
+                  checked={newCompleted}
+                  onChange={(e) => setNewCompleted(e.target.checked)}
+                />
+                <Button
+                  id="wd-update-assignment-completed"
+                  variant="primary"
+                  size="sm"
+                  className="mt-2"
+                  href={`${ASSIGNMENT_API_URL}/completed/${
+                    newCompleted ? "true" : "false"
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Completed
+                </Button>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        </Col>
 
-      <label htmlFor="wd-assignment-score" className="form-label">
-        Score
-      </label>
-      <FormControl
-        id="wd-assignment-score"
-        className="mb-2 w-25"
-        type="number"
-        value={newScore}
-        onChange={(e) => setNewScore(e.target.value)}
-      />
-      <a
-        id="wd-update-assignment-score"
-        className="btn btn-primary mb-3"
-        href={`${ASSIGNMENT_API_URL}/score/${enc(newScore)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Score
-      </a>
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm h-100">
+            <Card.Header className="bg-success text-white">
+              <h4 className="mb-0">Module</h4>
+            </Card.Header>
+            <Card.Body>
+              {/* Retrieving Section */}
+              <h5 className="text-success mb-3">Retrieving</h5>
+              <ButtonGroup className="mb-4 w-100">
+                <Button
+                  id="wd-get-module"
+                  variant="outline-success"
+                  href={`${MODULE_API_URL}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Module
+                </Button>
+                <Button
+                  id="wd-get-module-name"
+                  variant="outline-success"
+                  href={`${MODULE_API_URL}/name`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Module Name
+                </Button>
+              </ButtonGroup>
 
-      <br />
+              <hr />
 
-      <label
-        htmlFor="wd-assignment-completed"
-        className="form-check-label me-2"
-      >
-        Completed
-      </label>
-      <input
-        id="wd-assignment-completed"
-        className="form-check-input me-2"
-        type="checkbox"
-        checked={newCompleted}
-        onChange={(e) => setNewCompleted(e.target.checked)}
-      />
-      <a
-        id="wd-update-assignment-completed"
-        className="btn btn-primary"
-        href={`${ASSIGNMENT_API_URL}/completed/${
-          newCompleted ? "true" : "false"
-        }`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Completed
-      </a>
+              {/* Modifying Section */}
+              <h5 className="text-success mb-3">Modifying</h5>
 
-      <hr />
-      <h4>Module — Retrieving</h4>
-      <a
-        id="wd-get-module"
-        className="btn btn-primary me-2"
-        href={`${MODULE_API_URL}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get Module
-      </a>
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="wd-module-name-input">
+                  New Module Name
+                </Form.Label>
+                <Form.Control
+                  id="wd-module-name-input"
+                  value={newModuleName}
+                  onChange={(e) => setNewModuleName(e.target.value)}
+                  type="text"
+                />
+                <Button
+                  id="wd-update-module-name"
+                  variant="success"
+                  size="sm"
+                  className="mt-2"
+                  href={`${MODULE_API_URL}/name/${enc(newModuleName)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Module Name
+                </Button>
+              </Form.Group>
 
-      <a
-        id="wd-get-module-name"
-        className="btn btn-primary"
-        href={`${MODULE_API_URL}/name`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Get Module Name
-      </a>
-
-      <hr />
-
-      <h4>Module — Modifying</h4>
-      <label htmlFor="wd-module-name-input" className="form-label">
-        New Module Name
-      </label>
-      <FormControl
-        id="wd-module-name-input"
-        className="mb-2 w-75"
-        value={newModuleName}
-        onChange={(e) => setNewModuleName(e.target.value)}
-        type="text"
-      />
-      <a
-        id="wd-update-module-name"
-        className="btn btn-primary mb-3"
-        href={`${MODULE_API_URL}/name/${enc(newModuleName)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Module Name
-      </a>
-
-      <br />
-
-      <label htmlFor="wd-module-desc-input" className="form-label">
-        New Module Description
-      </label>
-      <FormControl
-        id="wd-module-desc-input"
-        className="mb-2 w-75"
-        value={newModuleDescription}
-        onChange={(e) => setNewModuleDescription(e.target.value)}
-        as="textarea"
-        rows={2}
-      />
-      <a
-        id="wd-update-module-description"
-        className="btn btn-primary"
-        href={`${MODULE_API_URL}/description/${enc(newModuleDescription)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Update Module Description
-      </a>
-
-      <hr />
-    </div>
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="wd-module-desc-input">
+                  New Module Description
+                </Form.Label>
+                <Form.Control
+                  id="wd-module-desc-input"
+                  value={newModuleDescription}
+                  onChange={(e) => setNewModuleDescription(e.target.value)}
+                  as="textarea"
+                  rows={3}
+                />
+                <Button
+                  id="wd-update-module-description"
+                  variant="success"
+                  size="sm"
+                  className="mt-2"
+                  href={`${MODULE_API_URL}/description/${enc(
+                    newModuleDescription
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Update Module Description
+                </Button>
+              </Form.Group>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
