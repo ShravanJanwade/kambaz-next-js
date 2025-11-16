@@ -1,136 +1,438 @@
-.container {
+.dashboardWrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+  padding: 0rem 0;
 }
 
-.navbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+.container {
+  max-width: 1800px;
+  padding: 0 2rem;
 }
 
-.brand {
+.header {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 700;
-  font-size: 20px;
-  color: white !important;
+  gap: 0.75rem;
 }
 
-.logo {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+.headerIcon {
+  color: #667eea;
 }
 
-.navLink {
-  color: white !important;
-  text-decoration: none;
+.subtitle {
+  font-size: 1rem;
+  color: #718096;
+  margin: 0;
+}
+
+.enrollmentBtn {
+  border-radius: 10px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 500;
   transition: all 0.3s ease;
-}
-
-.navLink:hover {
-  opacity: 0.8;
-}
-
-.logoutBtn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: white !important;
-  border-color: white !important;
-  transition: all 0.3s ease;
-}
-
-.logoutBtn:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.content {
-  padding: 40px 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.courseCard {
-  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
   border: none !important;
-  transition: all 0.3s ease !important;
+}
+
+.enrollmentBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.createCourseCard {
+  background: white;
+  border: none !important;
+  border-radius: 16px !important;
   overflow: hidden;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+}
+
+.actionBtn {
+  border-radius: 8px !important;
+  padding: 0.5rem 1.25rem !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: none !important;
+}
+
+.actionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.formLabel {
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.formInput {
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background: #f7fafc;
+}
+
+.formInput:focus {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
   background: white !important;
 }
 
+.coursesSection {
+  margin-top: 2rem;
+}
+
+.coursesSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.coursesTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.countBadge {
+  font-size: 1rem !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.coursesGrid {
+  margin-top: 1.5rem;
+}
+
+.courseCard {
+  background: white;
+  border: none !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .courseCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.courseLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.courseImageWrapper {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: #f7fafc;
 }
 
 .courseImage {
   width: 100%;
-  height: 200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  overflow: hidden;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.courseCard:hover .courseImage {
+  transform: scale(1.05);
+}
+
+.courseOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.courseImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.courseCard:hover .courseOverlay {
+  opacity: 1;
 }
 
-.courseBadge {
-  width: fit-content;
-  font-size: 12px;
+.viewCourse {
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.courseBody {
+  padding: 1.25rem !important;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.courseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.courseNumber {
+  font-size: 0.75rem !important;
+  padding: 0.35rem 0.75rem !important;
+  border-radius: 6px !important;
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 4px;
+  background: #e2e8f0 !important;
+  color: #4a5568 !important;
 }
 
-.description {
+.enrolledBadge {
+  font-size: 0.7rem !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 6px !important;
+  font-weight: 600;
+}
+
+.courseTitle {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: #2d3748 !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-height: 1.4;
 }
 
-.courseMeta {
-  border-top: 1px solid #e9ecef;
-  padding-top: 12px;
-  margin-bottom: 16px;
+.courseDescription {
+  font-size: 0.9rem !important;
+  color: #718096 !important;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+  margin-bottom: 0 !important;
+}
+
+.courseFooter {
+  padding: 1rem 1.25rem;
+  background: #f7fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .openBtn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border: none !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  transition: all 0.3s ease !important;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  color: #667eea;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .openBtn:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-.emptyCard {
-  border-radius: 12px !important;
-  border: 2px dashed #e9ecef !important;
-  background: rgba(255, 255, 255, 0.5) !important;
+.facultyActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.editBtn,
+.deleteBtn {
+  border-radius: 8px !important;
+  padding: 0.5rem 0.75rem !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: none !important;
+}
+
+.editBtn:hover,
+.deleteBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.studentActions {
+  margin-left: auto;
+}
+
+.enrollBtn,
+.unenrollBtn {
+  border-radius: 8px !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  border: 2px solid !important;
+}
+
+.enrollBtn {
+  background: #48bb78 !important;
+  border-color: #48bb78 !important;
+}
+
+.enrollBtn:hover {
+  background: #38a169 !important;
+  border-color: #38a169 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.unenrollBtn {
+  background: transparent !important;
+  color: #e53e3e !important;
+  border-color: #e53e3e !important;
+}
+
+.unenrollBtn:hover {
+  background: #e53e3e !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .dashboardWrapper {
+    padding: 1rem 0;
+  }
+
+  .header {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .enrollmentBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .coursesTitle {
+    font-size: 1.4rem;
+  }
+
+  .coursesSectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .courseFooter {
+    flex-wrap: wrap;
+  }
+
+  .facultyActions,
+  .studentActions {
+    width: 100%;
+  }
+
+  .facultyActions {
+    justify-content: flex-end;
+  }
+
+  .studentActions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .actionBtn {
+    font-size: 0.85rem;
+    padding: 0.45rem 1rem !important;
+  }
+
+  .courseImageWrapper {
+    height: 160px;
+  }
 }
