@@ -13,7 +13,7 @@ import {
   Spinner,
   Badge,
 } from "react-bootstrap";
-import { Mail, Lock, ArrowRight, User, Sparkles } from "lucide-react";
+import { Mail, Lock, ArrowRight, User } from "lucide-react";
 import styles from "./signin.module.css";
 import type { RootState } from "../../store";
 import { clearAuthError, setAuthError, setCurrentUser } from "../reducer";
@@ -87,7 +87,6 @@ export default function SignIn() {
           <main className={styles.main}>
             <div className={styles.hero}>
               <div className="d-flex align-items-center justify-content-center mb-3">
-                <Sparkles size={32} className="text-primary me-2" />
                 <h1 className={styles.title}>Welcome Back</h1>
               </div>
               <p className={styles.subtitle}>
@@ -214,7 +213,6 @@ export default function SignIn() {
                 <div className="d-flex align-items-center justify-content-between mb-3">
                   <div>
                     <h6 className={`${styles.demoTitle} mb-1`}>
-                      <Sparkles size={18} className="me-2 text-warning" />
                       Quick Demo Access
                     </h6>
                     <small className="text-muted">
