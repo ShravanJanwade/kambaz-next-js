@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { deleteAssignment, setAssignments } from "./reducer";
 import { RootState } from "@/app/(Kambaz)/store";
 import * as client from "./client";
+import { Dropdown, Modal, Button } from "react-bootstrap";
 
 function AssignmentControl({
   assignmentId,
@@ -23,19 +24,17 @@ function AssignmentControl({
 }) {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const currentUser = useSelector((s: RootState) => s.auth.currentUser);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const handleEdit = () => {
     router.push(`/Courses/${cid}/Assignments/${assignmentId}`);
-    setShowDropdown(false);
   };
 
-  const handleDelete = () => {
-    setShowDropdown(false);
+  const onDeleteClicked = () => {
     setShowDeleteConfirm(true);
   };
+
   const confirmDelete = async () => {
     setShowDeleteConfirm(false);
     try {
@@ -50,62 +49,56 @@ function AssignmentControl({
     <div className="d-flex align-items-center">
       <GreenCheckmark />
       {currentUser?.role === "FACULTY" && (
-        <div className="ms-2 position-relative">
-          <button
-            className="btn btn-sm btn-link p-0 text-secondary"
-            onClick={() => setShowDropdown(!showDropdown)}
-            title="Edit or delete assignment"
-          >
-            <IoEllipsisVertical className="fs-4" />
-          </button>
-
-          {showDropdown && (
-            <div
-              className="position-absolute bg-white border rounded shadow-lg z-3"
-              style={{
-                right: "0",
-                top: "100%",
-                marginTop: "5px",
-                minWidth: "150px",
-              }}
+        <div className="ms-2">
+          <Dropdown align="end">
+            <Dropdown.Toggle
+              variant="link"
+              bsPrefix="btn btn-sm btn-link p-0 text-secondary"
+              id={`assignment-control-${assignmentId}-toggle`}
+              title="Edit or delete assignment"
             >
-              <button
-                className="btn btn-link btn-sm w-100 text-start text-dark text-decoration-none p-2 border-bottom"
-                onClick={handleEdit}
-              >
-                Edit
-              </button>
-              <button
-                className="btn btn-link btn-sm w-100 text-start text-danger text-decoration-none p-2"
-                onClick={handleDelete}
-              >
+              <IoEllipsisVertical className="fs-4" />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="shadow-sm" style={{ minWidth: 150 }}>
+              <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={onDeleteClicked} className="text-danger">
                 Delete
-              </button>
-            </div>
-          )}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
 
-          {showDeleteConfirm && (
-            <div
-              className="position-fixed top-50 start-50 translate-middle bg-white border rounded shadow-lg p-3 z-5"
-              style={{ minWidth: "300px" }}
-            >
-              <div className="mb-3 fw-semibold">Delete this assignment?</div>
-              <div className="d-flex gap-2 justify-content-end">
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => setShowDeleteConfirm(false)}
-                >
-                  No
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={confirmDelete}
-                >
-                  Yes
-                </button>
-              </div>
-            </div>
-          )}
+          <Modal
+            show={showDeleteConfirm}
+            onHide={() => setShowDeleteConfirm(false)}
+            centered
+            style={{ zIndex: 200000 }}
+            aria-labelledby="confirm-delete-assignment"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="confirm-delete-assignment">
+                Delete this assignment?
+              </Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              This will permanently remove the assignment. Students will not be
+              able to access it after deletion.
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
+                No
+              </Button>
+              <Button variant="danger" size="sm" onClick={confirmDelete}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiBook } from "react-icons/bi";
 import {
@@ -22,6 +22,7 @@ export default function CourseNavigation({
   onNavigate,
 }: Props) {
   const params = useParams();
+  const pathname = usePathname();
   const cid = params?.cid;
   const base = `/Courses/${cid}`;
   const links = [
@@ -93,17 +94,26 @@ export default function CourseNavigation({
 
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      {links.map(({ href, label }, idx) => (
-        <Link
-          key={href}
-          href={href}
-          className={`list-group-item ${
-            idx === 0 ? "active" : "text-danger"
-          } border-0`}
-        >
-          {label}
-        </Link>
-      ))}
+      {links.map(({ href, label }) => {
+        const isActive =
+          pathname &&
+          href &&
+          pathname.toLowerCase().startsWith(href.toLowerCase());
+
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`list-group-item text-danger ${
+              isActive
+                ? "border-start border-top-0 border-end-0 border-bottom-0 border-dark border-3"
+                : "border-0"
+            }  d-flex align-items-center`}
+          >
+            {label}
+          </Link>
+        );
+      })}
     </div>
   );
 }
