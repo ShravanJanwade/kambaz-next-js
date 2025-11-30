@@ -33,7 +33,7 @@ type Course = {
   image?: string;
   description?: string;
 };
-
+const BASE_URL = process.env.NEXT_PUBLIC_HTTP_SERVER;
 export default function KambazNavigation() {
   const pathname = usePathname();
   const router = useRouter();
@@ -193,7 +193,7 @@ export default function KambazNavigation() {
           <div className="d-flex align-items-center gap-2">
             <Image
               style={{ height: "100px", width: "200px" }}
-              src="/images/canvas.svg"
+              src={`${BASE_URL}/images/canvas.svg`}
               width="60"
               height={60}
               alt="canvas"
@@ -390,7 +390,7 @@ export default function KambazNavigation() {
           href="https://www.northeastern.edu/"
         >
           <Image
-            src="/images/NEU.png"
+            src={`${BASE_URL}/images/NEU.png`}
             width="60"
             height={60}
             alt="Northeastern University"
