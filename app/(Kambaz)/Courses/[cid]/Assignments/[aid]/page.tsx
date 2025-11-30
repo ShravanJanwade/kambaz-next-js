@@ -37,6 +37,22 @@ export default function AssignmentEditor() {
     fileUpload: false,
   });
 
+  function isoToLocalInput(iso?: string | null) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
+      d.getDate()
+    )}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  function localInputToIso(localString?: string | null) {
+    if (!localString) return null;
+    const d = new Date(localString);
+    if (isNaN(d.getTime())) return null;
+    return d.toISOString();
+  }
   useEffect(() => {
     if (assignment && !isNewAssignment) {
       setFormData({
@@ -110,9 +126,9 @@ export default function AssignmentEditor() {
         const newAssignmentPayload = {
           title: formData.title,
           description: formData.description,
-          available: formData.available,
-          due: formData.due,
-          until: formData.until,
+          available: localInputToIso(formData.available),
+          due: localInputToIso(formData.due),
+          until: localInputToIso(formData.until),
           points: formData.points,
         };
         const created = await client.createAssignmentForCourse(
@@ -126,9 +142,9 @@ export default function AssignmentEditor() {
           title: formData.title,
           description: formData.description,
           course: assignment!.course,
-          available: formData.available,
-          due: formData.due,
-          until: formData.until,
+          available: localInputToIso(formData.available),
+          due: localInputToIso(formData.due),
+          until: localInputToIso(formData.until),
           points: formData.points,
         };
         const updated = await client.updateAssignment(updatedAssignmentPayload);
@@ -471,7 +487,7 @@ export default function AssignmentEditor() {
               <input
                 type="datetime-local"
                 id="wd-due-date"
-                value={formData.due}
+                value={isoToLocalInput(formData.due)}
                 onChange={handleChange}
                 className="form-control"
               />
@@ -485,7 +501,7 @@ export default function AssignmentEditor() {
                 <input
                   type="datetime-local"
                   id="wd-available-from"
-                  value={formData.available}
+                  value={isoToLocalInput(formData.available)}
                   onChange={handleChange}
                   className="form-control"
                 />
@@ -497,7 +513,7 @@ export default function AssignmentEditor() {
                 <input
                   type="datetime-local"
                   id="wd-available-until"
-                  value={formData.until}
+                  value={isoToLocalInput(formData.until)}
                   onChange={handleChange}
                   className="form-control"
                 />

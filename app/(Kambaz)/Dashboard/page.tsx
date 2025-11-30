@@ -96,7 +96,7 @@ export default function Dashboard() {
   }, [currentUser, dispatch, router]);
 
   const displayedCourses =
-    currentUser?.role === "FACULTY"
+    currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN"
       ? courses
       : showAllCourses
       ? courses
@@ -167,7 +167,8 @@ export default function Dashboard() {
           <div className={styles.headerContent}>
             <div>
               <h1 className={styles.title}>
-                {currentUser?.role === "FACULTY" ? (
+                {currentUser?.role === "FACULTY" ||
+                currentUser?.role === "ADMIN" ? (
                   <>
                     <FaChalkboardTeacher className={styles.headerIcon} />
                     Faculty Dashboard
@@ -181,7 +182,8 @@ export default function Dashboard() {
               </h1>
               <p className={styles.subtitle}>
                 Welcome back, {currentUser?.firstName || "User"}!{" "}
-                {currentUser?.role === "FACULTY"
+                {currentUser?.role === "FACULTY" ||
+                currentUser?.role === "ADMIN"
                   ? "Manage your courses"
                   : "Continue your learning journey"}
               </p>
@@ -200,76 +202,77 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {currentUser?.role === "FACULTY" && (
-          <Card className={`${styles.createCourseCard} shadow-sm mb-4`}>
-            <Card.Body>
-              <div className="d-flex align-items-center justify-content-between mb-3">
-                <h5 className={styles.sectionTitle}>
-                  <FaPlus className="me-2" />
-                  Create New Course
-                </h5>
-                <div className="d-flex gap-2">
-                  <Button
-                    variant="warning"
-                    onClick={handleUpdateCourse}
-                    id="wd-update-course-click"
-                    className={styles.actionBtn}
-                  >
-                    <FiEdit2 size={16} className="me-2" />
-                    Update
-                  </Button>
-                  <Button
-                    variant="primary"
-                    id="wd-add-new-course-click"
-                    onClick={handleAddCourse}
-                    className={styles.actionBtn}
-                  >
-                    <FaPlus size={14} className="me-2" />
-                    Add Course
-                  </Button>
+        {currentUser?.role === "FACULTY" ||
+          (currentUser?.role === "ADMIN" && (
+            <Card className={`${styles.createCourseCard} shadow-sm mb-4`}>
+              <Card.Body>
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <h5 className={styles.sectionTitle}>
+                    <FaPlus className="me-2" />
+                    Create New Course
+                  </h5>
+                  <div className="d-flex gap-2">
+                    <Button
+                      variant="warning"
+                      onClick={handleUpdateCourse}
+                      id="wd-update-course-click"
+                      className={styles.actionBtn}
+                    >
+                      <FiEdit2 size={16} className="me-2" />
+                      Update
+                    </Button>
+                    <Button
+                      variant="primary"
+                      id="wd-add-new-course-click"
+                      onClick={handleAddCourse}
+                      className={styles.actionBtn}
+                    >
+                      <FaPlus size={14} className="me-2" />
+                      Add Course
+                    </Button>
+                  </div>
                 </div>
-              </div>
 
-              <Row className="g-3">
-                <Col md={6}>
-                  <label className={styles.formLabel}>Course Name</label>
-                  <FormControl
-                    value={course.name}
-                    className={styles.formInput}
-                    onChange={(e) =>
-                      setCourse({ ...course, name: e.target.value })
-                    }
-                    placeholder="Enter course name"
-                  />
-                </Col>
-                <Col md={6}>
-                  <label className={styles.formLabel}>Course Number</label>
-                  <FormControl
-                    value={course.number}
-                    className={styles.formInput}
-                    onChange={(e) =>
-                      setCourse({ ...course, number: e.target.value })
-                    }
-                    placeholder="Enter course number"
-                  />
-                </Col>
-                <Col xs={12}>
-                  <label className={styles.formLabel}>Description</label>
-                  <FormControl
-                    as="textarea"
-                    rows={3}
-                    value={course.description}
-                    className={styles.formInput}
-                    onChange={(e) =>
-                      setCourse({ ...course, description: e.target.value })
-                    }
-                    placeholder="Enter course description"
-                  />
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
-        )}
+                <Row className="g-3">
+                  <Col md={6}>
+                    <label className={styles.formLabel}>Course Name</label>
+                    <FormControl
+                      value={course.name}
+                      className={styles.formInput}
+                      onChange={(e) =>
+                        setCourse({ ...course, name: e.target.value })
+                      }
+                      placeholder="Enter course name"
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <label className={styles.formLabel}>Course Number</label>
+                    <FormControl
+                      value={course.number}
+                      className={styles.formInput}
+                      onChange={(e) =>
+                        setCourse({ ...course, number: e.target.value })
+                      }
+                      placeholder="Enter course number"
+                    />
+                  </Col>
+                  <Col xs={12}>
+                    <label className={styles.formLabel}>Description</label>
+                    <FormControl
+                      as="textarea"
+                      rows={3}
+                      value={course.description}
+                      className={styles.formInput}
+                      onChange={(e) =>
+                        setCourse({ ...course, description: e.target.value })
+                      }
+                      placeholder="Enter course description"
+                    />
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          ))}
 
         <div className={styles.coursesSection}>
           <div className={styles.coursesSectionHeader}>
@@ -277,7 +280,8 @@ export default function Dashboard() {
               <TrendingUp size={24} className="me-2" />
               {showAllCourses
                 ? "All Available Courses"
-                : currentUser?.role === "FACULTY"
+                : currentUser?.role === "FACULTY" ||
+                  currentUser?.role === "ADMIN"
                 ? "Your Courses"
                 : "Enrolled Courses"}
             </h2>
@@ -294,7 +298,9 @@ export default function Dashboard() {
                 return (
                   <Col key={course._id}>
                     <Card className={styles.courseCard}>
-                      {isEnrolled || currentUser?.role === "FACULTY" ? (
+                      {isEnrolled ||
+                      currentUser?.role === "FACULTY" ||
+                      currentUser?.role === "ADMIN" ? (
                         <Link
                           href={`/Courses/${course._id}/Home`}
                           className={styles.courseLink}
@@ -347,7 +353,9 @@ export default function Dashboard() {
                       </Card.Body>
 
                       <div className={styles.courseFooter}>
-                        {(isEnrolled || currentUser?.role === "FACULTY") && (
+                        {(isEnrolled ||
+                          currentUser?.role === "FACULTY" ||
+                          currentUser?.role === "ADMIN") && (
                           <Link
                             href={`/Courses/${course._id}/Home`}
                             aria-label={`Open ${course.number}`}
@@ -357,42 +365,46 @@ export default function Dashboard() {
                           </Link>
                         )}
 
-                        {currentUser?.role === "FACULTY" && (
-                          <div className={styles.facultyActions}>
-                            <Button
-                              variant="warning"
-                              size="sm"
-                              aria-label={`Edit ${course.number}`}
-                              onClick={(e: React.MouseEvent) => {
-                                e.preventDefault();
-                                setCourse({ ...course });
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                              }}
-                              className={styles.editBtn}
-                            >
-                              <FiEdit2 size={14} />
-                              <span className="d-none d-lg-inline ms-1">
-                                Edit
-                              </span>
-                            </Button>
+                        {currentUser?.role === "FACULTY" ||
+                          (currentUser?.role === "ADMIN" && (
+                            <div className={styles.facultyActions}>
+                              <Button
+                                variant="warning"
+                                size="sm"
+                                aria-label={`Edit ${course.number}`}
+                                onClick={(e: React.MouseEvent) => {
+                                  e.preventDefault();
+                                  setCourse({ ...course });
+                                  window.scrollTo({
+                                    top: 0,
+                                    behavior: "smooth",
+                                  });
+                                }}
+                                className={styles.editBtn}
+                              >
+                                <FiEdit2 size={14} />
+                                <span className="d-none d-lg-inline ms-1">
+                                  Edit
+                                </span>
+                              </Button>
 
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              aria-label={`Delete ${course.number}`}
-                              onClick={async (e: React.MouseEvent) => {
-                                e.preventDefault();
-                                await handleDeleteCourse(course._id);
-                              }}
-                              className={styles.deleteBtn}
-                            >
-                              <FaTrash size={12} />
-                              <span className="d-none d-lg-inline ms-1">
-                                Delete
-                              </span>
-                            </Button>
-                          </div>
-                        )}
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                aria-label={`Delete ${course.number}`}
+                                onClick={async (e: React.MouseEvent) => {
+                                  e.preventDefault();
+                                  await handleDeleteCourse(course._id);
+                                }}
+                                className={styles.deleteBtn}
+                              >
+                                <FaTrash size={12} />
+                                <span className="d-none d-lg-inline ms-1">
+                                  Delete
+                                </span>
+                              </Button>
+                            </div>
+                          ))}
 
                         {currentUser?.role === "STUDENT" && (
                           <div className={styles.studentActions}>

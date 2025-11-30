@@ -127,37 +127,39 @@ export default function ModulesControls({
         </Dropdown.Menu>
       </Dropdown>
 
-      {currentUser?.role === "FACULTY" && (
-        <Button
-          variant="danger"
-          size="sm"
-          className="me-1 d-none d-md-inline-block d-lg-none"
-          id="wd-add-module-btn-sm"
-          onClick={handleShow}
-        >
-          <FaPlus
-            className="position-relative me-1"
-            style={{ bottom: "1px" }}
-          />
-          Module
-        </Button>
-      )}
+      {currentUser?.role === "FACULTY" ||
+        (currentUser?.role === "ADMIN" && (
+          <Button
+            variant="danger"
+            size="sm"
+            className="me-1 d-none d-md-inline-block d-lg-none"
+            id="wd-add-module-btn-sm"
+            onClick={handleShow}
+          >
+            <FaPlus
+              className="position-relative me-1"
+              style={{ bottom: "1px" }}
+            />
+            Module
+          </Button>
+        ))}
 
-      {currentUser?.role === "FACULTY" && (
-        <Button
-          variant="danger"
-          size="lg"
-          className="me-1 d-none d-lg-inline-block"
-          id="wd-add-module-btn-lg"
-          onClick={handleShow}
-        >
-          <FaPlus
-            className="position-relative me-2"
-            style={{ bottom: "1px" }}
-          />
-          Module
-        </Button>
-      )}
+      {currentUser?.role === "FACULTY" ||
+        (currentUser?.role === "ADMIN" && (
+          <Button
+            variant="danger"
+            size="lg"
+            className="me-1 d-none d-lg-inline-block"
+            id="wd-add-module-btn-lg"
+            onClick={handleShow}
+          >
+            <FaPlus
+              className="position-relative me-2"
+              style={{ bottom: "1px" }}
+            />
+            Module
+          </Button>
+        ))}
       <ModuleEditor
         show={show}
         handleClose={handleClose}

@@ -1,26 +1,19 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import type { RootState } from "../store";
+
 export default function AccountNavigation() {
   const pathname = usePathname();
   const { currentUser } = useSelector((state: RootState) => state.auth);
+
   const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
-  // const links = [
-  //   {
-  //     href: "/Account/Signin",
-  //     label: "Signin",
-  //   },
-  //   {
-  //     href: "/Account/Signup",
-  //     label: "Signup",
-  //   },
-  //   {
-  //     href: "/Account/Profile",
-  //     label: "Profile",
-  //   },
-  // ];
+
+  if (currentUser?.role && String(currentUser.role).toUpperCase() === "ADMIN") {
+    links.push("Users");
+  }
 
   return (
     <div
@@ -39,7 +32,7 @@ export default function AccountNavigation() {
           return (
             <Link
               key={link}
-              href={link}
+              href={href}
               className={`d-flex align-items-center gap-2 py-2 px-3 mb-2 text-decoration-none ${
                 isActive
                   ? "fw-bold border-start border-3 border-dark text-dark"

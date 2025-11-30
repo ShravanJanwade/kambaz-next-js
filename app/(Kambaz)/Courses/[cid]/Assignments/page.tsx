@@ -48,59 +48,63 @@ function AssignmentControl({
   return (
     <div className="d-flex align-items-center">
       <GreenCheckmark />
-      {currentUser?.role === "FACULTY" && (
-        <div className="ms-2">
-          <Dropdown align="end">
-            <Dropdown.Toggle
-              variant="link"
-              bsPrefix="btn btn-sm btn-link p-0 text-secondary"
-              id={`assignment-control-${assignmentId}-toggle`}
-              title="Edit or delete assignment"
-            >
-              <IoEllipsisVertical className="fs-4" />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="shadow-sm" style={{ minWidth: 150 }}>
-              <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
-              <Dropdown.Item onClick={onDeleteClicked} className="text-danger">
-                Delete
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Modal
-            show={showDeleteConfirm}
-            onHide={() => setShowDeleteConfirm(false)}
-            centered
-            style={{ zIndex: 200000 }}
-            aria-labelledby="confirm-delete-assignment"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="confirm-delete-assignment">
-                Delete this assignment?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              This will permanently remove the assignment. Students will not be
-              able to access it after deletion.
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setShowDeleteConfirm(false)}
+      {currentUser?.role === "FACULTY" ||
+        (currentUser?.role === "ADMIN" && (
+          <div className="ms-2">
+            <Dropdown align="end">
+              <Dropdown.Toggle
+                variant="link"
+                bsPrefix="btn btn-sm btn-link p-0 text-secondary"
+                id={`assignment-control-${assignmentId}-toggle`}
+                title="Edit or delete assignment"
               >
-                No
-              </Button>
-              <Button variant="danger" size="sm" onClick={confirmDelete}>
-                Yes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      )}
+                <IoEllipsisVertical className="fs-4" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu className="shadow-sm" style={{ minWidth: 150 }}>
+                <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={onDeleteClicked}
+                  className="text-danger"
+                >
+                  Delete
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Modal
+              show={showDeleteConfirm}
+              onHide={() => setShowDeleteConfirm(false)}
+              centered
+              style={{ zIndex: 200000 }}
+              aria-labelledby="confirm-delete-assignment"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="confirm-delete-assignment">
+                  Delete this assignment?
+                </Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                This will permanently remove the assignment. Students will not
+                be able to access it after deletion.
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  No
+                </Button>
+                <Button variant="danger" size="sm" onClick={confirmDelete}>
+                  Yes
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        ))}
     </div>
   );
 }
@@ -178,19 +182,19 @@ export default function Assignments() {
         >
           + Group
         </button>
-        {currentUser?.role === "FACULTY" && (
-          <button
-            className="btn btn-danger"
-            onClick={() => router.push(`/Courses/${cid}/Assignments/new`)}
-          >
-            + Assignment
-          </button>
-        )}
+        {currentUser?.role === "FACULTY" ||
+          (currentUser?.role === "ADMIN" && (
+            <button
+              className="btn btn-danger"
+              onClick={() => router.push(`/Courses/${cid}/Assignments/new`)}
+            >
+              + Assignment
+            </button>
+          ))}
       </div>
 
       <ListGroup className="rounded-0 shadow-sm" id="wd-assignment-list">
         <ListGroupItem className="wd-module p-0 fs-5 border-0">
-          {/* Group Header */}
           <div className="wd-title p-3 ps-2 bg-light d-flex justify-content-between align-items-center border-start border-success border-3 rounded-top">
             <div className="d-flex align-items-center">
               <BsGripVertical className="me-2 fs-4 text-secondary" />

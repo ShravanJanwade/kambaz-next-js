@@ -98,7 +98,6 @@ export default function LessonRowControls({
 
       <div style={separator} aria-hidden />
 
-      {/* Action buttons */}
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <button
           onClick={() => editModule(moduleId)}

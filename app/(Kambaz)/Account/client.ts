@@ -1,8 +1,15 @@
 import axios from "axios";
-const axiosWithCredentials = axios.create({ withCredentials: true });
 
-export const HTTP_SERVER = process.env.NEXT_PUBLIC_HTTP_SERVER;
-export const USERS_API = `${HTTP_SERVER}/api/users`;
+export const HTTP_SERVER =
+  process.env.NEXT_PUBLIC_HTTP_SERVER || "http://localhost:4000";
+
+const axiosWithCredentials = axios.create({
+  baseURL: HTTP_SERVER,
+  withCredentials: true,
+});
+
+export const USERS_API = "/api/users";
+
 export const signin = async (credentials: any) => {
   try {
     const response = await axiosWithCredentials.post(
@@ -20,8 +27,19 @@ export const signin = async (credentials: any) => {
     throw err;
   }
 };
+
+export const findAllUsers = async () => {
+  const response = await axiosWithCredentials.get(USERS_API);
+  return response.data;
+};
+
 export const signup = async (user: any) => {
   const response = await axiosWithCredentials.post(`${USERS_API}/signup`, user);
+  return response.data;
+};
+
+export const createUser = async (user: any) => {
+  const response = await axiosWithCredentials.post(`${USERS_API}`, user);
   return response.data;
 };
 export const updateUser = async (user: any) => {
@@ -31,10 +49,12 @@ export const updateUser = async (user: any) => {
   );
   return response.data;
 };
+
 export const profile = async () => {
   const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
   return response.data;
 };
+
 export const signout = async () => {
   const response = await axiosWithCredentials.post(`${USERS_API}/signout`);
   return response.data;

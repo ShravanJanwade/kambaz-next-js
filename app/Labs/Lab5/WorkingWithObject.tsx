@@ -53,7 +53,6 @@ export default function WorkingWithObjects() {
               <h4 className="mb-0">Assignment</h4>
             </Card.Header>
             <Card.Body>
-              {/* Retrieving Section */}
               <h5 className="text-primary mb-3">Retrieving</h5>
               <ButtonGroup className="mb-4 w-100">
                 <Button
@@ -78,7 +77,6 @@ export default function WorkingWithObjects() {
 
               <hr />
 
-              {/* Modifying Section */}
               <h5 className="text-primary mb-3">Modifying</h5>
 
               <Form.Group className="mb-3">
@@ -157,7 +155,6 @@ export default function WorkingWithObjects() {
               <h4 className="mb-0">Module</h4>
             </Card.Header>
             <Card.Body>
-              {/* Retrieving Section */}
               <h5 className="text-success mb-3">Retrieving</h5>
               <ButtonGroup className="mb-4 w-100">
                 <Button
@@ -182,7 +179,6 @@ export default function WorkingWithObjects() {
 
               <hr />
 
-              {/* Modifying Section */}
               <h5 className="text-success mb-3">Modifying</h5>
 
               <Form.Group className="mb-3">

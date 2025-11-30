@@ -57,7 +57,7 @@ export default function KambazNavigation() {
   );
 
   const displayedCourses =
-    currentUser?.role === "FACULTY"
+    currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN"
       ? courses
       : showAllCourses
       ? courses

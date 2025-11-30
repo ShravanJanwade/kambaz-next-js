@@ -102,14 +102,12 @@ export default function SignUp() {
           <Card className={`${styles.formCard} border-0`}>
             <Card.Body className={styles.cardBody}>
               <Form onSubmit={handleSignUp}>
-                {/* Error Alert */}
                 {error && (
                   <Alert variant="danger" className={styles.alert}>
                     {error}
                   </Alert>
                 )}
 
-                {/* Name Inputs */}
                 <Row className="mb-4">
                   <Col md={6}>
                     <Form.Group>

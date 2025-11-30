@@ -59,13 +59,36 @@ export default function Modules() {
   const modules = useSelector(
     (state: RootState) => state.modulesReducer.modules as Module[]
   );
+  useEffect(() => {
+    console.log(modules, "shravan");
+  }, [modules]);
   const dispatch = useDispatch();
 
   const refreshModules = async () => {
     if (!cid) return;
     try {
       const serverModules = await client.findModulesForCourse(String(cid));
-      dispatch(setModules(Array.isArray(serverModules) ? serverModules : []));
+      const normalized = (
+        Array.isArray(serverModules) ? serverModules : []
+      ).map((m: any) => {
+        const mod = { ...m };
+        if (!mod.course) mod.course = String(cid);
+
+        if (Array.isArray(mod.lessons)) {
+          mod.lessons = mod.lessons.map((ls: any) => {
+            const lesson = { ...ls };
+            if (!lesson.id && lesson._id) lesson.id = lesson._id;
+            if (!lesson.id) lesson.id = uuidv4();
+            return lesson;
+          });
+        } else {
+          mod.lessons = [];
+        }
+
+        return mod;
+      });
+
+      dispatch(setModules(normalized));
     } catch (err) {
       console.error("Failed to fetch modules for course:", err);
     }
@@ -245,19 +268,24 @@ export default function Modules() {
                   )}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  {currentUser?.role === "FACULTY" && (
-                    <ModuleControlButtons
-                      moduleId={module._id}
-                      isAddOpen={addLessonForModule === module._id}
-                      onToggleAdd={() =>
-                        setAddLessonForModule((prev) =>
-                          prev === module._id ? null : module._id
-                        )
-                      }
-                      deleteModule={(moduleId) => handleDeleteModule(moduleId)}
-                      editModule={(moduleId) => dispatch(editModule(moduleId))}
-                    />
-                  )}
+                  {currentUser?.role === "FACULTY" ||
+                    (currentUser?.role === "ADMIN" && (
+                      <ModuleControlButtons
+                        moduleId={module._id}
+                        isAddOpen={addLessonForModule === module._id}
+                        onToggleAdd={() =>
+                          setAddLessonForModule((prev) =>
+                            prev === module._id ? null : module._id
+                          )
+                        }
+                        deleteModule={(moduleId) =>
+                          handleDeleteModule(moduleId)
+                        }
+                        editModule={(moduleId) =>
+                          dispatch(editModule(moduleId))
+                        }
+                      />
+                    ))}
                 </div>
               </div>
 
@@ -342,40 +370,41 @@ export default function Modules() {
                         )}
                       </div>
 
-                      {currentUser?.role === "FACULTY" && (
-                        <div>
-                          <Dropdown align="end">
-                            <Dropdown.Toggle
-                              variant="link"
-                              id={`dropdown-${lesson.id}`}
-                              style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                                cursor: "pointer",
-                              }}
-                            >
-                              <span style={{ fontSize: 18 }}>⋮</span>
-                            </Dropdown.Toggle>
+                      {currentUser?.role === "FACULTY" ||
+                        (currentUser?.role === "ADMIN" && (
+                          <div>
+                            <Dropdown align="end">
+                              <Dropdown.Toggle
+                                variant="link"
+                                id={`dropdown-${lesson.id}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "inherit",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                <span style={{ fontSize: 18 }}>⋮</span>
+                              </Dropdown.Toggle>
 
-                            <Dropdown.Menu>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleStartEditLesson(module, lesson.id)
-                                }
-                              >
-                                Edit
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDeleteLesson(module, lesson.id)
-                                }
-                              >
-                                Delete
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </div>
-                      )}
+                              <Dropdown.Menu>
+                                <Dropdown.Item
+                                  onClick={() =>
+                                    handleStartEditLesson(module, lesson.id)
+                                  }
+                                >
+                                  Edit
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  onClick={() =>
+                                    handleDeleteLesson(module, lesson.id)
+                                  }
+                                >
+                                  Delete
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
+                        ))}
                     </ListGroupItem>
                   ))}
                 </ListGroup>
