@@ -55,6 +55,7 @@ export default function KambazNavigation() {
   const { courses, enrolledCourses } = useSelector(
     (state: RootState) => state.coursesReducer
   );
+  const [imageUrls, setImageUrls] = useState<string[] | null>(null);
 
   const displayedCourses =
     currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN"
@@ -79,7 +80,26 @@ export default function KambazNavigation() {
   }, []);
 
   const isActive = (path: string) => pathname?.startsWith(path);
-
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const base = BASE_URL || "";
+        const resp = await fetch(`${base}/api/images`);
+        if (!resp.ok) {
+          throw new Error(`images request failed: ${resp.status}`);
+        }
+        const data = await resp.json();
+        if (Array.isArray(data)) setImageUrls(data);
+      } catch (err) {
+        console.warn(
+          "Could not fetch images from backend, falling back to hard-coded URLs",
+          err
+        );
+        setImageUrls(null);
+      }
+    };
+    loadImages();
+  }, []);
   const navLinks = [
     {
       href: "/Account",
@@ -193,7 +213,11 @@ export default function KambazNavigation() {
           <div className="d-flex align-items-center gap-2">
             <Image
               style={{ height: "100px", width: "200px" }}
-              src={`${BASE_URL}/images/canvas.svg`}
+              src={
+                imageUrls && imageUrls[1]
+                  ? imageUrls[1]
+                  : `${BASE_URL}/images/canvas.svg`
+              }
               width="60"
               height={60}
               alt="canvas"
@@ -390,7 +414,11 @@ export default function KambazNavigation() {
           href="https://www.northeastern.edu/"
         >
           <Image
-            src={`${BASE_URL}/images/NEU.png`}
+            src={
+              imageUrls && imageUrls[0]
+                ? imageUrls[0]
+                : `${BASE_URL}/images/NEU.png`
+            }
             width="60"
             height={60}
             alt="Northeastern University"
